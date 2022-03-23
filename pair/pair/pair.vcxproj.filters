@@ -18,5 +18,22 @@
     <ClCompile Include="pair.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ParamHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MException.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pair.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

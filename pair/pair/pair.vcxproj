@@ -139,7 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MException.cpp" />
     <ClCompile Include="pair.cpp" />
+    <ClCompile Include="ParamHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MException.h" />
+    <ClInclude Include="pair.h" />
+    <ClInclude Include="ParamHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

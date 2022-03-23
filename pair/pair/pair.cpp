@@ -2,11 +2,88 @@
 //
 
 #include <iostream>
+#include <unordered_map>
+#include <unordered_set>
+#include <fstream>
+#include "pair.h"
 
-int main()
+std::ifstream in;
+std::ofstream out;
+
+std::vector<Word&> words;
+std::unordered_map<char, std::list<Word&>> head2words;
+std::unordered_map<char, std::list<Word&>> tail2words;
+
+void init() {
+	for (int i = 0; i < 32; i++) {
+		head2words.emplace('a' + i, std::list<Word&>());
+		tail2words.emplace('a' + i, std::list<Word&>());
+	}
+}
+
+std::string getWord(std::ifstream& in) {
+	std::string res = "";
+	char ch;
+	in.get(ch);
+	while (ch != '\0') {
+		if (ch >= 'a' && ch <= 'z') {
+			res += ch;
+		}
+		else if (ch >= 'A' && ch <= 'Z') {
+			res += ch - 'A' + 'a';
+		}
+		in.get(ch);
+	}
+	return res;
+}
+
+void handleInputs(std::string filename) {
+	// TODO exception if file dont exist
+	in.open(filename, std::ios::in);
+	while (in.peek() != EOF) {
+		std::string s = getWord(in);
+		Word w = Word(s);
+		words.emplace_back(w);
+		head2words[w.first].emplace_back(w);
+		tail2words[w.last].emplace_back(w);
+	}
+}
+
+void handleParams(std::string op) {
+	switch (op[1])
+	{
+	case 'n':
+		
+		break;
+	case 'w':
+		break;
+	case 'm':
+		break;
+	case 'c':
+		break;
+	case 'h':
+		break;
+	case 't':
+		break;
+	case 'r':
+		break;
+	default:
+		break;
+	}
+}
+
+
+int main(int argc, char* argv[])
 {
-    
-    std::cout << "Hello World!\n";
+	init();
+	//TODO excepitions when argc is ilegal
+	
+	handleInputs(argv[argc - 1]);
+	for (int i = 0; i < argc-1; i++) {
+		handleParams(std::string(argv[i]));
+	}
+
+	return 0;
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
