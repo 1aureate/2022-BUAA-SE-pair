@@ -30,41 +30,9 @@ private:
 	std::string fileName;
 public:
 	ParamHandler(int argc, char* argv[]) : head(-1), tail(-1), status(0) {
-		check(argc, argv);
-		int flag = 0;
-		for (int i = 0; i < argc; i++) {
-			char* s = argv[i];
-			if (s[0] == '-') {
-				if (s[1] == '\0' || s[2] != '\0') {
-					throw "WRONG PARAM";
-				}
-				switch (s[1])
-				{
-				case 'n':
-					status |= n;
-					break;
-				case 'h':
-					flag = 1;
-					status |= h;
-					break;
-				case 't':
 
-					break;
-				default:
-					break;
-				}
-			}
-			else {
-				if (flag) {
-					if (flag == 1) {
-						head = s[0];
-					}
-					else if (flag == 2) {
-						tail = s[0];
-					}
-				}
-			}
-		}
+		check(argc, argv);
+	
 	}
 
 	void check(int argc, char* argv[]) {

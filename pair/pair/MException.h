@@ -17,3 +17,9 @@ public:
     ParamException(std::string msg) : MException(msg) {}
 };
 
+
+class FileNotExistException : public MException {
+public:
+    FileNotExistException(std::string msg) : MException(msg) {}
+};
+

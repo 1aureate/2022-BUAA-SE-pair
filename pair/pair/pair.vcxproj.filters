@@ -24,6 +24,12 @@
     <ClCompile Include="MException.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="InputsHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WordListHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pair.h">
@@ -33,6 +39,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputsHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WordListHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
