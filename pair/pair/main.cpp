@@ -9,10 +9,14 @@ int main(int argc, char* argv[])
 	std::vector<Word> words;
 	
 	ParamHandler paramHandler(argc, argv);
+	std::cout << "param handled" << std::endl;
 	InputsHandler inputsHandler;
 	words = inputsHandler.handle(argv[argc-1]);
+	std::cout << "inputs handled" << std::endl;
 	WordListHandler wordListHandler(paramHandler, words);
+	std::cout << "start wordListHandler" << std::endl;
 	wordListHandler.handle();
+	std::cout << "target handled" << std::endl;
 	return 0;
 }
 
