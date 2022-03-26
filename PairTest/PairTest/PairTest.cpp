@@ -80,15 +80,15 @@ namespace PairTest
 
 
 			// test for exceptions
-			char* argv15[] = { "pair.exe", "test1.txt" };
-			testCases.push_back(ParamHandlerTestCase(2, argv15, Type::CHAR_NUM, -1, -1, true, false));
-			char* argv16[] = { "pair.exe" };
-			testCases.push_back(ParamHandlerTestCase(1, argv16, Type::CHAR_NUM, -1, -1, true, false));
-			char* argv17[] = { "pair.exe", "-n" };
-			testCases.push_back(ParamHandlerTestCase(2, argv17, Type::CHAR_NUM, -1, -1, true, false));
+			char* argv16[] = { "pair.exe", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(2, argv16, Type::CHAR_NUM, -1, -1, true, false));
+			char* argv17[] = { "pair.exe" };
+			testCases.push_back(ParamHandlerTestCase(1, argv17, Type::CHAR_NUM, -1, -1, true, false));
+			char* argv18[] = { "pair.exe", "-n" };
+			testCases.push_back(ParamHandlerTestCase(2, argv18, Type::CHAR_NUM, -1, -1, true, false));
 
 
-			int len = testCases.size();
+			auto len = testCases.size();
 			for (int i = 0; i < len; i++) {
 				try {
 					auto testCase = testCases[i];
@@ -115,6 +115,43 @@ namespace PairTest
 				std::vector<std::string> stdOutput;
 				InputHandlerTestCase(std::string input, std::vector<std::string> stdOutput) : 
 					input(input), stdOutput(stdOutput) {} 
+				
+			};
+
+			InputsHandler ih;
+			std::vector<InputHandlerTestCase> testCases;
+
+			testCases.push_back(InputHandlerTestCase("wo shi yi ge sha bi", 
+				{"wo", "shi", "yi", "ge", "sha", "bi"}));
+			testCases.push_back(InputHandlerTestCase("wo",
+				{ "wo" }));
+			testCases.push_back(InputHandlerTestCase("",
+				{}));
+			testCases.push_back(InputHandlerTestCase("wo&shi$yi/ge*sha@bi",
+				{ "wo", "shi", "yi", "ge", "sha", "bi" }));
+			testCases.push_back(InputHandlerTestCase("wo&a&shi*s*yi0i0ge sha bi",
+				{ "wo", "shi", "yi", "ge", "sha", "bi" }));
+			testCases.push_back(InputHandlerTestCase("Wo sHi yI GE sha Bi",
+				{ "wo", "shi", "yi", "ge", "sha", "bi" }));
+
+			auto len = testCases.size();
+			for (int i = 0; i < len; i++) {
+				auto testCase = testCases[i];
+				auto output = ih.extractWords(testCase.input);
+				
+				auto outputLen = output.size();
+				if (outputLen != testCase.stdOutput.size()) {
+					int forDebug;
+					forDebug = 100;
+				}
+				Assert::AreEqual(outputLen, testCase.stdOutput.size());
+				for (int j = 0; j < outputLen; j++) {
+					if (output[j].content != testCase.stdOutput[j]) {
+						int forDebug;
+						forDebug = 100;
+					}
+					Assert::IsTrue(output[j].content == testCase.stdOutput[j]);
+				}
 			}
 		}
 	};

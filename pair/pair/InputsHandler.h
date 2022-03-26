@@ -44,16 +44,15 @@ public:
 	InputsHandler() {};
 	std::vector<Word> handle(std::string _filename) {
 		std::ifstream in;
-		int length;
 		in.open(_filename, std::ios::in);
 		if (!in.is_open()) {
 			throw FileNotExistException("cant open file " + _filename);
 		}
 		std::cout << "start" << std::endl;
 		in.seekg(0, std::ios::end);
-		length = in.tellg();
+		auto length = in.tellg();
 		in.seekg(0, std::ios::beg);
-		buffer = new char[length];
+		auto buffer = new char[length];
 		in.read(buffer, length);
 		std::cout << "end" << std::endl;
 		in.close();
@@ -80,14 +79,14 @@ public:
 
 	std::vector<Word> extractWords(const std::string& s) {
 		std::vector<Word> words;
-		std::string res = "";
-		int len = s.size();
-		for (int i = 0; i > len; i++) {
+		auto len = s.size();
+		for (int i = 0; i < len; i++) {
 			char ch = s[i];
 			std::string res = "";
 			while (!(ch >= 'a' && ch <= 'z') && !(ch >= 'A' && ch <= 'Z') && i < len)
 			{
 				i++;
+				ch = s[i];
 			}
 			while (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) && i < len) {
 				if (ch >= 'a' && ch <= 'z') {
@@ -97,6 +96,7 @@ public:
 					res += ch - 'A' + 'a';
 				}
 				i++;
+				ch = s[i];
 			}
 
 			if (i == len && ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))) {
@@ -107,10 +107,13 @@ public:
 					res += ch - 'A' + 'a';
 				}
 			}
-			std::cout << "get word " + res << std::endl;
-			words.push_back(res);
+			if (res.size() > 1) {
+				std::cout << "get word " + res << std::endl;
+				words.push_back(res);
+			}
+			
 		}
-		return res;
+		return words;
 	}
 };
 
