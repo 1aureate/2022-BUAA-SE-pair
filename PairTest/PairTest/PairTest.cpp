@@ -18,13 +18,13 @@ namespace PairTest
 			char stdSpecializedHead;
 			char stdSpecializedTail;
 			bool stdAllowCircle;
-			bool stdSameHead;
+			bool stdNoSameHead;
 			ParamHandlerTestCase(int argc, char* argv[], Type stdType,
 				char stdSpecializedHead, char stdSpecializedTail,
 				bool stdAllowCircle, bool stdSameHead) :
 				argc(argc), stdType(stdType), stdSpecializedHead(stdSpecializedHead),
 				stdSpecializedTail(stdSpecializedTail), stdAllowCircle(stdAllowCircle),
-				stdSameHead(stdSameHead) {
+				stdNoSameHead(stdSameHead) {
 				this->argv = argv;
 			}
 
@@ -33,7 +33,7 @@ namespace PairTest
 		{
 			/*
 			int argc;
-			char* argv[20]; // ���20������
+			char* argv[20]; 最多20个参数
 			Type stdTypes;
 			char stdSpecializedHead;
 			char stdSpecializedTail;
@@ -45,39 +45,50 @@ namespace PairTest
 			// test for -n -w -m -c
 			char* argv1[] = { "pair.exe", "-n", "test1.txt" };
 			testCases.push_back(ParamHandlerTestCase(3, argv1, Type::CHAIN_NUM, -1, -1, false, false));
-
 			char* argv2[] = { "pair.exe", "-w", "test2.txt" };
 			testCases.push_back(ParamHandlerTestCase(3, argv2, Type::WORD_NUM, -1, -1, false, false));
-
-			char* argv3[] = { "pair.exe", "-m", "test1.txt" }; // -m ֻ�ܵ�������
+			char* argv3[] = { "pair.exe", "-m", "test1.txt" }; // -m 不与其他的共存
 			testCases.push_back(ParamHandlerTestCase(3, argv3, Type::WORD_NUM, -1, -1, false, true));
-
 			char* argv4[] = { "pair.exe", "-c", "test1.txt" };
 			testCases.push_back(ParamHandlerTestCase(3, argv4, Type::CHAR_NUM, -1, -1, false, false));
 
 			// test for -h and -t
-			char* argv5[] = { "pair.exe", "-h", "w", "-n", "test1.txt" };
-			testCases.push_back(ParamHandlerTestCase(5, argv5, Type::CHAIN_NUM, 'w', -1, false, false));
-
+			char* argv5[] = { "pair.exe", "-h", "a", "-n", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(5, argv5, Type::CHAIN_NUM, 'a', -1, false, false));
 			char* argv6[] = { "pair.exe", "-n", "test1.txt", "-t", "q" };
 			testCases.push_back(ParamHandlerTestCase(5, argv6, Type::CHAIN_NUM, -1, 'q', false, false));
-
-			char* argv7[] = { "pair.exe", "-h", "w", "-n", "test1.txt", "-t", "q" };
-			testCases.push_back(ParamHandlerTestCase(7, argv7, Type::CHAIN_NUM, 'w', 'q', false, false));
-
-			char* argv8[] = { "pair.exe", "-h", "w", "-w", "test1.txt", "-t", "q" };
-			testCases.push_back(ParamHandlerTestCase(7, argv8, Type::WORD_NUM, 'w', 'q', false, false));
-
-			char* argv9[] = { "pair.exe", "-h", "w", "-c", "test1.txt", "-t", "q" };
-			testCases.push_back(ParamHandlerTestCase(7, argv9, Type::CHAR_NUM, 'w', 'q', false, false));
+			char* argv7[] = { "pair.exe", "-h", "a", "-n", "test1.txt", "-t", "q" };
+			testCases.push_back(ParamHandlerTestCase(7, argv7, Type::CHAIN_NUM, 'a', 'q', false, false));
+			char* argv8[] = { "pair.exe", "-h", "a", "-w", "test1.txt", "-t", "q" };
+			testCases.push_back(ParamHandlerTestCase(7, argv8, Type::WORD_NUM, 'a', 'q', false, false));
+			char* argv9[] = { "pair.exe", "-h", "a", "-c", "test1.txt", "-t", "q" };
+			testCases.push_back(ParamHandlerTestCase(7, argv9, Type::CHAR_NUM, 'a', 'q', false, false));
 
 			// test for -r
+			char* argv10[] = { "pair.exe", "-r", "-n", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(4, argv10, Type::CHAIN_NUM, -1, -1, true, false));
+			char* argv11[] = { "pair.exe", "-n", "-r", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(4, argv11, Type::CHAIN_NUM, -1, -1, true, false));
+			char* argv12[] = { "pair.exe", "-r", "-w", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(4, argv12, Type::WORD_NUM, -1, -1, true, false));
+			char* argv13[] = { "pair.exe", "-w", "-r", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(4, argv13, Type::WORD_NUM, -1, -1, true, false));
+			char* argv14[] = { "pair.exe", "-r", "-c", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(4, argv14, Type::CHAR_NUM, -1, -1, true, false));
+			char* argv15[] = { "pair.exe", "-c", "-r", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(4, argv15, Type::CHAR_NUM, -1, -1, true, false));
 
 
+			// test for exceptions
+			char* argv15[] = { "pair.exe", "test1.txt" };
+			testCases.push_back(ParamHandlerTestCase(2, argv15, Type::CHAR_NUM, -1, -1, true, false));
+			char* argv16[] = { "pair.exe" };
+			testCases.push_back(ParamHandlerTestCase(1, argv16, Type::CHAR_NUM, -1, -1, true, false));
+			char* argv17[] = { "pair.exe", "-n" };
+			testCases.push_back(ParamHandlerTestCase(2, argv17, Type::CHAR_NUM, -1, -1, true, false));
 
 
 			int len = testCases.size();
-
 			for (int i = 0; i < len; i++) {
 				try {
 					auto testCase = testCases[i];
@@ -89,45 +100,22 @@ namespace PairTest
 					Assert::AreEqual(ph.ifSpecializedHead(), testCase.stdSpecializedHead);
 					Assert::AreEqual(ph.ifSpecializedTail(), testCase.stdSpecializedTail);
 					Assert::AreEqual(ph.allowCircle(), testCase.stdAllowCircle);
-					Assert::AreEqual(ph.sameHead(), testCase.stdSameHead);
+					Assert::AreEqual(ph.noSameHead(), testCase.stdNoSameHead);
 				}
 				catch (ParamException e) {
 					std::cout << "Catched ParamException in " << i;
 				}
 			}
+		}
 
-			
-			/*#define TESTCASE_NUM 5
-			
-			char* argv[TESTCASE_NUM][100] = {
-				{ "pair.exe", "-n", "test1.txt" }, 
-				{"pair.exe", "-m", "test2.txt"},
-				{"pair.exe", ""}
-			};
-			int argc[TESTCASE_NUM] = { 3 };
-
-			Type stdTypes[TESTCASE_NUM] = { Type::CHAIN_NUM };
-			char stdSpecializedHead[TESTCASE_NUM] = { -1 };
-			char stdSpecializedTail[TESTCASE_NUM] = { -1 };
-			bool stdAllowCircle[TESTCASE_NUM] = { false };
-			bool stdSameHead[TESTCASE_NUM] = { false };
-
-			for (int i = 0; i < TESTCASE_NUM; i++) {
-				try {
-					ParamHandler ph(argc[i], argv[i]);
-					Type t = ph.getType();
-
-					bool ans = t == stdTypes[i];
-					Assert::IsTrue(ans);
-					Assert::AreEqual(ph.ifSpecializedHead(), stdSpecializedHead[i]);
-					Assert::AreEqual(ph.ifSpecializedTail(), stdSpecializedTail[i]);
-					Assert::AreEqual(ph.allowCircle(), stdAllowCircle[i]);
-					Assert::AreEqual(ph.sameHead(), stdSameHead[i]);
-				}
-				catch (ParamException e) {
-					std::cout << "Catched ParamException in " << i;
-				}
-			}*/
+		TEST_METHOD(TestInputHandler) {
+			class InputHandlerTestCase {
+			public:
+				std::string input;
+				std::vector<std::string> stdOutput;
+				InputHandlerTestCase(std::string input, std::vector<std::string> stdOutput) : 
+					input(input), stdOutput(stdOutput) {} 
+			}
 		}
 	};
 }
