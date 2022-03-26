@@ -43,22 +43,77 @@ private:
 public:
 	InputsHandler() {};
 	std::vector<Word> handle(std::string _filename) {
-		std::vector<Word> _words;
 		std::ifstream in;
 		in.open(_filename, std::ios::in);
 		if (!in.is_open()) {
 			throw FileNotExistException("cant open file " + _filename);
 		}
 		std::cout << "start" << std::endl;
-		while (in.peek() != EOF) {
-			std::string s = getWord(in);
-			std::cout << "get word " + s << std::endl;
-			Word w = Word(s);
-			_words.emplace_back(w);
-		}
+		in.seekg(0, std::ios::end);
+		auto length = in.tellg();
+		in.seekg(0, std::ios::beg);
+		auto buffer = new char[length];
+		in.read(buffer, length);
 		std::cout << "end" << std::endl;
 		in.close();
-		return _words;
+
+		return extractWords(buffer);
+		// old version
+		// std::vector<Word> _words;
+		// std::ifstream in;
+		// in.open(_filename, std::ios::in);
+		// if (!in.is_open()) {
+		// 	throw FileNotExistException("cant open file " + _filename);
+		// }
+		// std::cout << "start" << std::endl;
+		// while (in.peek() != EOF) {
+		// 	std::string s = getWord(in);
+		// 	std::cout << "get word " + s << std::endl;
+		// 	Word w = Word(s);
+		// 	_words.emplace_back(w);
+		// }
+		// std::cout << "end" << std::endl;
+		// in.close();
+		// return _words;
+	}
+
+	std::vector<Word> extractWords(const std::string& s) {
+		std::vector<Word> words;
+		auto len = s.size();
+		for (int i = 0; i < len; i++) {
+			char ch = s[i];
+			std::string res = "";
+			while (!(ch >= 'a' && ch <= 'z') && !(ch >= 'A' && ch <= 'Z') && i < len)
+			{
+				i++;
+				ch = s[i];
+			}
+			while (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) && i < len) {
+				if (ch >= 'a' && ch <= 'z') {
+					res += ch;
+				}
+				else if (ch >= 'A' && ch <= 'Z') {
+					res += ch - 'A' + 'a';
+				}
+				i++;
+				ch = s[i];
+			}
+
+			if (i == len && ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))) {
+				if (ch >= 'a' && ch <= 'z') {
+					res += ch;
+				}
+				else if (ch >= 'A' && ch <= 'Z') {
+					res += ch - 'A' + 'a';
+				}
+			}
+			if (res.size() > 1) {
+				std::cout << "get word " + res << std::endl;
+				words.push_back(res);
+			}
+			
+		}
+		return words;
 	}
 };
 
