@@ -8,13 +8,13 @@ enum Type {
 class ParamHandler
 {
 private:
-	//bool n; // only itself ¼ÆËãµ¥´ÊÎÄ±¾ÖÐ¿ÉÒÔ¹¹³É¶àÉÙ¸öµ¥´ÊÁ´£¨ÄÜ¹»¹¹³ÉËùÓÐµ¥´ÊÁ´µÄÊýÄ¿£©
-	//bool w; // ¼ÆËã×î¶àµ¥´ÊÊýÁ¿µÄµ¥´ÊÁ´
-	//bool m; // not pair with h t r  ÒªÇóµ¥´ÊÁ´ÖÐµÄÃ¿Ò»¸öµ¥´ÊµÄÊ××ÖÄ¸²»ÄÜÏàÍ¬£¬¼ÆËã×î¶àµ¥´ÊÊýÁ¿µÄµ¥´ÊÁ´ ×¢£º-m ²ÎÊý²»ÒªÇóÓëºóÃæµÄ -h£¬-t£¬-r ¸´ºÏÊ¹ÓÃ¡£
-	//bool c; // ¼ÆËã×ÖÄ¸×î¶àµÄµ¥´ÊÁ´
-	//bool h; // Ö¸¶¨µ¥´ÊÁ´¿ªÍ·×ÖÄ¸
-	//bool t; // Ö¸¶¨µ¥´ÊÁ´½áÎ²×ÖÄ¸
-	//bool r; // ÔÊÐíµ¥´ÊÎÄ±¾Òþº¬µ¥´Ê»·
+	//bool n; // only itself ï¿½ï¿½ï¿½ãµ¥ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ð¿ï¿½ï¿½Ô¹ï¿½ï¿½É¶ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
+	//bool w; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½àµ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
+	//bool m; // not pair with h t r  Òªï¿½óµ¥´ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½àµ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ ×¢ï¿½ï¿½-m ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -hï¿½ï¿½-tï¿½ï¿½-r ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ã¡ï¿½
+	//bool c; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
+	//bool h; // Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½Ä¸
+	//bool t; // Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î²ï¿½ï¿½Ä¸
+	//bool r; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê»ï¿½
 
 	static const int n = 1<<6;
 	static const int w = 1<<5;
@@ -29,15 +29,16 @@ private:
 	int status;
 	std::string fileName;
 public:
-	ParamHandler(int argc, char* argv[]) : head(-1), tail(-1), status(0) {
 
+	ParamHandler() {};
+
+	ParamHandler(int argc, char* argv[]) : head(-1), tail(-1), status(0) {
 		check(argc, argv);
-	
 	}
 
 	void check(int argc, char* argv[]) {
 		int flag = 0;
-		for (int i = 0; i < argc-1; i++) {
+		for (int i = 1; i < argc-1; i++) {
 			char* s = argv[i];
 			if (s[0] == '-') {
 				if (s[1] == '\0' || s[2] != '\0') {
@@ -124,37 +125,37 @@ public:
 	}
 
 	Type getType() {
-		if (n) {
+		if (status & n) {
 			return CHAIN_NUM;
 		}
-		if (w || m) {
+		if (status & w || status & m) {
 			return WORD_NUM;
 		}
-		if (c) {
+		if (status & c) {
 			return CHAR_NUM;
 		}
 	}
 
 	char ifSpecializedHead() {
-		if (h) {
+		if (status & h) {
 			return head;
 		}
 		return -1;
 	}
 
 	char ifSpecializedTail() {
-		if (t) {
+		if (status & t) {
 			return tail;
 		}
 		return -1;
 	}
 
 	bool allowCircle() {
-		return r;
+		return (status & r) != 0;
 	}
 
 	bool sameHead() {
-		return m;
+		return (status & m) != 0;
 	}
 };
 

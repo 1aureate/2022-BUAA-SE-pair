@@ -1,22 +1,17 @@
 ﻿// pair.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
+// TODO handle the header
 
-#include <iostream>
-#include <unordered_map>
-#include <unordered_set>
-#include <fstream>
-
-#include "pair.h"
-#include "ParamHandler.h"
-#include "InputsHandler.h"
-#include "WordListHandler.h"
+#include "main.h"
 
 int main(int argc, char* argv[])
 {
+	std::vector<Word> words;
 	
 	ParamHandler paramHandler(argc, argv);
-	InputsHandler inputsHandler(argv[argc - 1]);
-	WordListHandler wordListHandler();
+	InputsHandler inputsHandler;
+	words = inputsHandler.handle(argv[argc-1]);
+	WordListHandler wordListHandler(paramHandler, words);
 	wordListHandler.handle();
 	return 0;
 }

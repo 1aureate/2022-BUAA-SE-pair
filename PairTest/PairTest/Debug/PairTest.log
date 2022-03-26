@@ -1,0 +1,5 @@
+﻿  pch.cpp
+  PairTest.cpp
+C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\ParamHandler.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+    正在创建库 C:\Users\86182\Desktop\2022-BUAA-SE\PairTest\Debug\PairTest.lib 和对象 C:\Users\86182\Desktop\2022-BUAA-SE\PairTest\Debug\PairTest.exp
+  PairTest.vcxproj -> C:\Users\86182\Desktop\2022-BUAA-SE\PairTest\Debug\PairTest.dll

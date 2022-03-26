@@ -1,5 +1,7 @@
 #pragma once
+
 #include <string>
+
 struct Word {
     char first;
     char last;

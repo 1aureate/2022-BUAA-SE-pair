@@ -141,14 +141,15 @@
   <ItemGroup>
     <ClCompile Include="InputsHandler.cpp" />
     <ClCompile Include="MException.cpp" />
-    <ClCompile Include="pair.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ParamHandler.cpp" />
     <ClCompile Include="WordListHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputsHandler.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="MException.h" />
-    <ClInclude Include="pair.h" />
+    <ClInclude Include="word.h" />
     <ClInclude Include="ParamHandler.h" />
     <ClInclude Include="WordListHandler.h" />
   </ItemGroup>
