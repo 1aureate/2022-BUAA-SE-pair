@@ -15,5 +15,3 @@ public:
 	std::vector<Word> handle(std::string _filename);
 };
 
-
-

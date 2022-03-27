@@ -127,7 +127,7 @@ public:
 			break;
 		case Type::WORD_NUM:
 			if (paramHandler.noSameHead()) {
-				genChainsLongestWords();
+				genLongestChains();
 			}
 			else {
 				genLongestChainsNoSameHead();

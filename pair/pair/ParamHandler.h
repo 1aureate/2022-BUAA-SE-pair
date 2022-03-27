@@ -48,7 +48,7 @@ public:
 		return (status & r) != 0;
 	}
 
-	bool sameHead() {
+	bool noSameHead() {
 		return (status & m) != 0;
 	}
 };
