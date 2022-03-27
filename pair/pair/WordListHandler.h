@@ -110,6 +110,8 @@ public:
 			tail2words[w.last].emplace_back(w);
 			visited[w.content] = false;
 		}
+
+		// TODO 检查数据的合法性
 		
 	}
 
@@ -125,7 +127,7 @@ public:
 			break;
 		case Type::WORD_NUM:
 			if (!paramHandler.sameHead()) {
-				genChainsLongestWords();
+				genLongestChains();// -h -t / (-h -t)
 			}
 			else {
 				genLongestChainsNoSameHead();
@@ -158,7 +160,25 @@ public:
 		
 	}
 
-	void genChainsLongestWords() {
+	void genLongestChains() {
+		std::vector<std::string> ans;
+		std::vector<std::string> res;
+
+		// 从words中筛选出以 ch1 开头的字母
+
+		for (auto& w : words) {
+			dfsLongest(w, res, ans); // 在路径中找出以 ch2 结尾的最长单词链
+		}
+
+		std::ofstream out("solution.txt", std::ios::out);
+
+		for (auto& w : ans) {
+			out << w << std::endl;
+		}
+
+		out.close();
+	}
+	void genLongestChainsHeadWithCh() {
 		std::vector<std::string> ans;
 		std::vector<std::string> res;
 
@@ -173,6 +193,16 @@ public:
 		}
 
 		out.close();
+	}
+
+	void genLongestChainsTailWithCh() {
+
+
+	}
+
+	void genLogestChainsHeadWithCh1AndTailWithCh2() {
+
+
 	}
 
 	void genLongestChainsNoSameHead() {
@@ -200,8 +230,10 @@ public:
 		std::vector<std::string> ans;
 		std::vector<std::string> path;
 
+
+		// 筛选出以 ch1 为开头的单词进行遍历 
 		for (auto& w : words) {
-			dfsMaxAlphaNum(w, path, pathSum, ans, sum);
+			dfsMaxAlphaNum(w, path, pathSum, ans, sum); //单词链中要求以 ch2 为结尾
 		}
 
 		std::ofstream out("solution.txt", std::ios::out);
@@ -214,10 +246,7 @@ public:
 	}
 
 
-
-
-
-
+	
 
 
 
