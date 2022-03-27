@@ -4,18 +4,27 @@
 
 #include "main.h"
 
+
 int main(int argc, char* argv[])
 {
-	std::vector<Word> words;
 	
 	ParamHandler paramHandler(argc, argv);
 	std::cout << "param handled" << std::endl;
 	InputsHandler inputsHandler;
-	words = inputsHandler.handle(argv[argc-1]);
+	std::vector<Word> words = inputsHandler.handle(argv[argc-1]);
 	std::cout << "inputs handled" << std::endl;
 	WordListHandler wordListHandler(paramHandler, words);
 	std::cout << "start wordListHandler" << std::endl;
-	wordListHandler.handle();
+	std::vector<std::string> ans = wordListHandler.handle();
+
+	if (paramHandler.getType() == Type::CHAIN_NUM) {
+		STDOutputHandler soh;
+		soh.output(ans);
+	}
+	else {
+		FileOutputHandler foh("solution.txt");
+		foh.output(ans);
+	}
 	std::cout << "target handled" << std::endl;
 	return 0;
 }

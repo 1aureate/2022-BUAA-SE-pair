@@ -126,6 +126,7 @@ public:
 		words = _words;
 		paramHandler = _paramHandler;
 
+
 		for (auto w : words) {
 			head2words[w.first].emplace_back(w);
 			tail2words[w.last].emplace_back(w);
@@ -134,40 +135,47 @@ public:
 		
 	}
 
-	void handle() {
+	std::vector<std::string> handle() {
 		switch (paramHandler.getType())
 		{
 		case Type::CHAIN_NUM:
 			// -n
-			genChainsAll();
+			return genChainsAll();
 			break;
-		case Type::CHAR_NUM:
+		case Type::CHAR_NUM: {
 			// -c
-			char ch1 = (paramHandler.SpecializedHead() == -1) ? '*' : paramHandler.SpecializedHead();
-			char ch2 = (paramHandler.SpecializedTail() == -1) ? '*' : paramHandler.SpecializedTail();
-			genMaxAlphaNumChains(ch1, ch2);
+			char ch1 = (paramHandler.SpecializedHead() == 0) ? '*' : paramHandler.SpecializedHead();
+			char ch2 = (paramHandler.SpecializedTail() == 0) ? '*' : paramHandler.SpecializedTail();
+			return genMaxAlphaNumChains(ch1, ch2);
 			break;
-		case Type::WORD_NUM:
+		}
+			
+		case Type::WORD_NUM: {
 			// -w
 			if (paramHandler.noSameHead()) {
-				char ch1 = (paramHandler.SpecializedHead() == -1) ? '*' : paramHandler.SpecializedHead();
-				char ch2 = (paramHandler.SpecializedTail() == -1) ? '*' : paramHandler.SpecializedTail();
-				genLongestChains(ch1, ch2);
+				char ch1 = (paramHandler.SpecializedHead() == 0) ? '*' : paramHandler.SpecializedHead();
+				char ch2 = (paramHandler.SpecializedTail() == 0) ? '*' : paramHandler.SpecializedTail();
+				return genLongestChains(ch1, ch2);
 			}
 			else {
 				// -m
-				genLongestChainsNoSameHead();
+				return genLongestChainsNoSameHead();
 			}
 			break;
+		}
 		default:
 			throw "illegal param type!";
 			break;
 		}
 	}
 
-	void genChainsAll() {
+	std::vector<std::string> genChainsAll() {
 		std::vector<std::stack<std::string>> ans;
 		std::stack<std::string> res;
+
+		std::vector<std::string> real_ans;
+
+		
 
 		for (auto& w : words) {
 			dfsAllChain(w, res, ans);
@@ -180,14 +188,14 @@ public:
 				tmp = st.top() + " " + tmp;
 				st.pop();
 			}
-			std::cout << tmp << std::endl;
+			real_ans.emplace_back(tmp);
 		}
+		return real_ans;
 	}
 
-	void genLongestChains(char ch1, char ch2) {
+	std::vector<std::string> genLongestChains(char ch1, char ch2) {
 		std::vector<std::string> ans;
 		std::vector<std::string> res;
-
 		// 从words中筛选出以 ch1 开头的字母
 		std::vector<Word> sample = samplePoints(ch1);
 			
@@ -195,16 +203,17 @@ public:
 			dfsLongest(w, res, ans, ch2); // 在路径中找出以 ch2 结尾的最长单词链	  
 		}
 
-		std::ofstream out("solution.txt", std::ios::out);
+		/*std::ofstream out("solution.txt", std::ios::out);
 
 		for (auto& w : ans) {
 			out << w << std::endl;
 		}
 
-		out.close();
+		out.close();*/
+		return ans;
 	}
 
-	void genLongestChainsNoSameHead() {
+	std::vector<std::string> genLongestChainsNoSameHead() {
 		std::vector<bool> heads(26, false);
 		std::vector<std::string> ans;
 		std::vector<std::string> path;
@@ -213,16 +222,17 @@ public:
 			dfsLongestNoSameHead(w, path, ans, heads);
 		}
 		
-		std::ofstream out("solution.txt", std::ios::out);
+		/*std::ofstream out("solution.txt", std::ios::out);
 
 		for (auto& s : ans) {
 			out << s << std::endl;
 		}
 
-		out.close();
+		out.close();*/
+		return ans;
 	}
 
-	void genMaxAlphaNumChains(char ch1, char ch2) {
+	std::vector<std::string> genMaxAlphaNumChains(char ch1, char ch2) {
 		int sum = 0;
 		int pathSum = 0;
 		std::vector<std::string> ans;
@@ -235,13 +245,14 @@ public:
 			dfsMaxAlphaNum(w, path, pathSum, ans, sum, ch2); //单词链中要求以 ch2 为结尾
 		}
 
-		std::ofstream out("solution.txt", std::ios::out);
+		/*std::ofstream out("solution.txt", std::ios::out);
 
 		for (auto& s : ans) {
 			out << s << std::endl;
 		}
 
-		out.close();
+		out.close();*/
+		return ans;
 	}
 
 
