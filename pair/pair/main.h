@@ -4,8 +4,10 @@
 #include <fstream>
 #include <string>
 
-
 #include "ParamHandler.h"
 #include "InputsHandler.h"
 #include "WordListHandler.h"
 #include "word.h"
+#include "OutputHandler.h"
+
+

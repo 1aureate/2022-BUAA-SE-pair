@@ -37,7 +37,7 @@ std::vector<Word> InputsHandler::extractWords(const std::string& s)
 {
 	std::vector<Word> words;
 	auto len = s.size();
-	for (int i = 0; i < len; i++) {
+	for (auto i = len - len; i < len; i++) {
 		char ch = s[i];
 		std::string res = "";
 		while (!(ch >= 'a' && ch <= 'z') && !(ch >= 'A' && ch <= 'Z') && i < len)

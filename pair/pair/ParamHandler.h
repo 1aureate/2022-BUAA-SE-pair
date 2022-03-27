@@ -21,9 +21,11 @@ private:
 	int status;
 	std::string fileName;
 public:
-	ParamHandler() {};
+	ParamHandler() : head(0), tail(0), status(0) {}
 
-	ParamHandler(int argc, char* argv[]) : head(-1), tail(-1), status(0) {
+	ParamHandler(Type type, char head, char tail, bool enable_loop, bool sameHead);
+
+	ParamHandler(int argc, char* argv[]) : head(0), tail(0), status(0) {
 		check(argc, argv);
 	}
 
@@ -34,14 +36,14 @@ public:
 		if (status & h) {
 			return head;
 		}
-		return -1;
+		return 0;
 	}
 
 	char SpecializedTail() {
 		if (status & t) {
 			return tail;
 		}
-		return -1;
+		return 0;
 	}
 
 	bool allowCircle() {

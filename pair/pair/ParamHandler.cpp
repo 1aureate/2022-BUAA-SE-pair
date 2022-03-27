@@ -1,5 +1,36 @@
 #include "ParamHandler.h"
-
+ParamHandler::ParamHandler(Type type, char head, char tail, bool enable_loop, bool noSameHead) :
+	head(0), tail(0), status(0) {
+	switch (type)
+	{
+	case Type::CHAIN_NUM:
+		status |= n;
+		break;
+	case Type::WORD_NUM:
+		status |= w;
+		break;
+	case Type::CHAR_NUM:
+		status |= c;
+		break;
+	default:
+		break;
+	}
+	// 传入0表示没有约束
+	if (head) {
+		this->head = head;
+		status |= h;
+	}
+	if (tail) {
+		this->tail = tail;
+		status |= t;
+	}
+	if (enable_loop) {
+		status |= r;
+	}
+	if (noSameHead) {
+		status |= m;
+	}
+}
 void ParamHandler::check(int argc, char* argv[])
 {
 	int flag = 0;
