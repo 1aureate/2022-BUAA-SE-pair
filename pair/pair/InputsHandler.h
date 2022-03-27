@@ -12,6 +12,7 @@ private:
 	std::string getWord(std::ifstream& _in);
 public:
 	InputsHandler() {};
+	std::vector<Word> extractWords(const std::string& s);
 	std::vector<Word> handle(std::string _filename);
 };
 

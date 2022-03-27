@@ -36,11 +36,23 @@ void ParamHandler::check(int argc, char* argv[])
 				status |= c;
 				break;
 			case 'h':
+				if (status & h) {
+					throw ParamException("duplicated option");
+				}
 				flag = 1;
 				status |= h;
 				break;
 			case 't':
+				if (status & t) {
+					throw ParamException("duplicated option");
+				}
 				status |= t;
+				break;
+			case 'r':
+				if (status & r) {
+					throw ParamException("duplicated option");
+				}
+				status |= r;
 				break;
 			default:
 				throw ParamException("unrecognized options: -" + s[1]);
@@ -68,6 +80,9 @@ void ParamHandler::check(int argc, char* argv[])
 	if ((status & n) && (status - n)) {
 		throw ParamException("option -n is incompatible with other options");
 	}
+	if ((status & m) && (status - m)) {
+		throw ParamException("option -m is incompatible with other options");
+	}
 	int cnt = 0;
 	if (status & n) {
 		cnt++;
@@ -89,15 +104,22 @@ void ParamHandler::check(int argc, char* argv[])
 	}
 }
 
-Type ParamHandler::getType()  
+Type ParamHandler::getType()
 {
-	if (status & n) {
-		return CHAIN_NUM;
+	if (status & n) 
+	{
+		return Type::CHAIN_NUM;
 	}
-	if (status & w || status & m) {
-		return WORD_NUM;
+	else if (status & w || status & m)
+	{
+		return Type::WORD_NUM;
 	}
-	if (status & c) {
-		return CHAR_NUM;
+	else if (status & c)
+	{
+		return Type::CHAR_NUM;
+	}
+	else
+	{
+		throw "nmsl";
 	}
 }

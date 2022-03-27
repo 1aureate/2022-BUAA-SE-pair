@@ -2,7 +2,7 @@
 #include <string>
 #include "MException.h"
 
-enum Type {
+enum class Type {
 	CHAIN_NUM, WORD_NUM, CHAR_NUM
 };
 class ParamHandler
@@ -30,14 +30,14 @@ public:
 	void check(int argc, char* argv[]);
 
 	Type getType();
-	char ifSpecializedHead() {
+	char SpecializedHead() {
 		if (status & h) {
 			return head;
 		}
 		return -1;
 	}
 
-	char ifSpecializedTail() {
+	char SpecializedTail() {
 		if (status & t) {
 			return tail;
 		}
@@ -49,7 +49,7 @@ public:
 	}
 
 	bool noSameHead() {
-		return (status & m) != 0;
+		return (status & m) == 0;
 	}
 };
 

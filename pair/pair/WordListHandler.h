@@ -15,11 +15,21 @@ private:
 	std::vector<Word> words;
 	std::unordered_map<std::string, bool> visited;
 
+	std::vector<Word> samplePoints(char ch) {
+		if (ch == '*') {
+			return words;
+		}
+		else {
+			std::vector<Word> ans;
+			ans.assign(head2words[ch].begin(), head2words[ch].end());
+			return ans;
+		}
+	}
+
 	void dfsAllChain(Word& word, std::stack<std::string>& path, std::vector<std::stack<std::string>>& ans) {
 
 		path.push(word.content);
 		visited[word.content] = true;
-		//std::cout << path.size() << std::endl;
 		if (path.size() > 1) {
 			ans.emplace_back(path);
 		}
@@ -34,11 +44,18 @@ private:
 		path.pop();
 	}
 
-	void dfsLongest(Word& word, std::vector<std::string>& path, std::vector<std::string>& ans) {
+	// -h -r -t
+	void dfsLongest(Word& word, std::vector<std::string>& path, std::vector<std::string>& ans, char ch) {
 
 		path.emplace_back(word.content);
 		visited[word.content] = true;
-		if (path.size() > ans.size() && path.size() > 1) {
+
+		// TODO -r 异常数据检查
+		if (!paramHandler.allowCircle() && path.front().front() == path.back().back()) {
+			throw "there is a wordlist circle in the data!";
+		}
+
+		if (path.size() > ans.size() && path.size() > 1 && (word.last == ch || ch == '*')) {
 			ans = path;
 		}
 
@@ -46,7 +63,7 @@ private:
 			if (visited[w.content]) {
 				continue;
 			}
-			dfsLongest(w, path, ans);
+			dfsLongest(w, path, ans, ch);
 		}
 		visited[word.content] = false;
 		path.pop_back();
@@ -71,12 +88,16 @@ private:
 		path.pop_back();
 	}
 
-	void dfsMaxAlphaNum(Word& word, std::vector<std::string>& path, int& pathSum, std::vector<std::string>& ans, int& sum) {
+	void dfsMaxAlphaNum(Word& word, std::vector<std::string>& path, int& pathSum, std::vector<std::string>& ans, int& sum, char ch) {
 		path.emplace_back(word.content);
 		visited[word.content] = true;
 		pathSum += word.content.size();
+
+		if (!paramHandler.allowCircle() && path.front().front() == path.back().back()) {
+			throw "there is a wordlist circle in the data!";
+		}
 		
-		if (pathSum > sum) {
+		if (pathSum > sum && (ch == '*' || word.last == ch)) {
 			ans = path;
 			sum = pathSum;
 		}
@@ -85,7 +106,7 @@ private:
 			if (visited[w.content]) {
 				continue;
 			}
-			dfsMaxAlphaNum(w, path, pathSum, ans, sum);
+			dfsMaxAlphaNum(w, path, pathSum, ans, sum, ch);
 		}
 		
 		visited[word.content] = false;
@@ -110,26 +131,31 @@ public:
 			tail2words[w.last].emplace_back(w);
 			visited[w.content] = false;
 		}
-
-		// TODO 检查数据的合法性
 		
 	}
 
 	void handle() {
-		std::cout << paramHandler.getType() << std::endl;
 		switch (paramHandler.getType())
 		{
 		case Type::CHAIN_NUM:
+			// -n
 			genChainsAll();
 			break;
 		case Type::CHAR_NUM:
-			genMaxAlphaNumChains();
+			// -c
+			char ch1 = (paramHandler.SpecializedHead() == -1) ? '*' : paramHandler.SpecializedHead();
+			char ch2 = (paramHandler.SpecializedTail() == -1) ? '*' : paramHandler.SpecializedTail();
+			genMaxAlphaNumChains(ch1, ch2);
 			break;
 		case Type::WORD_NUM:
+			// -w
 			if (paramHandler.noSameHead()) {
-				genLongestChains();
+				char ch1 = (paramHandler.SpecializedHead() == -1) ? '*' : paramHandler.SpecializedHead();
+				char ch2 = (paramHandler.SpecializedTail() == -1) ? '*' : paramHandler.SpecializedTail();
+				genLongestChains(ch1, ch2);
 			}
 			else {
+				// -m
 				genLongestChainsNoSameHead();
 			}
 			break;
@@ -144,7 +170,6 @@ public:
 		std::stack<std::string> res;
 
 		for (auto& w : words) {
-			std::cout << w.content << std::endl;
 			dfsAllChain(w, res, ans);
 		}
 
@@ -157,17 +182,17 @@ public:
 			}
 			std::cout << tmp << std::endl;
 		}
-		
 	}
 
-	void genLongestChains() {
+	void genLongestChains(char ch1, char ch2) {
 		std::vector<std::string> ans;
 		std::vector<std::string> res;
 
 		// 从words中筛选出以 ch1 开头的字母
-
-		for (auto& w : words) {
-			dfsLongest(w, res, ans); // 在路径中找出以 ch2 结尾的最长单词链
+		std::vector<Word> sample = samplePoints(ch1);
+			
+		for (auto& w : sample) {
+			dfsLongest(w, res, ans, ch2); // 在路径中找出以 ch2 结尾的最长单词链	  
 		}
 
 		std::ofstream out("solution.txt", std::ios::out);
@@ -177,32 +202,6 @@ public:
 		}
 
 		out.close();
-	}
-	void genLongestChainsHeadWithCh() {
-		std::vector<std::string> ans;
-		std::vector<std::string> res;
-
-		for (auto& w : words) {
-			dfsLongest(w, res, ans);
-		}
-
-		std::ofstream out("solution.txt", std::ios::out);
-
-		for (auto& w : ans) {
-			out << w << std::endl;
-		}
-
-		out.close();
-	}
-
-	void genLongestChainsTailWithCh() {
-
-
-	}
-
-	void genLogestChainsHeadWithCh1AndTailWithCh2() {
-
-
 	}
 
 	void genLongestChainsNoSameHead() {
@@ -213,7 +212,7 @@ public:
 		for (auto& w : words) {
 			dfsLongestNoSameHead(w, path, ans, heads);
 		}
-
+		
 		std::ofstream out("solution.txt", std::ios::out);
 
 		for (auto& s : ans) {
@@ -221,19 +220,19 @@ public:
 		}
 
 		out.close();
-
 	}
 
-	void genMaxAlphaNumChains() {
+	void genMaxAlphaNumChains(char ch1, char ch2) {
 		int sum = 0;
 		int pathSum = 0;
 		std::vector<std::string> ans;
 		std::vector<std::string> path;
 
-
 		// 筛选出以 ch1 为开头的单词进行遍历 
-		for (auto& w : words) {
-			dfsMaxAlphaNum(w, path, pathSum, ans, sum); //单词链中要求以 ch2 为结尾
+		std::vector<Word> sample = samplePoints(ch1);
+
+		for (auto& w : sample) {
+			dfsMaxAlphaNum(w, path, pathSum, ans, sum, ch2); //单词链中要求以 ch2 为结尾
 		}
 
 		std::ofstream out("solution.txt", std::ios::out);

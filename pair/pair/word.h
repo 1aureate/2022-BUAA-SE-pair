@@ -6,6 +6,8 @@ struct Word {
 	char first;
 	char last;
 	//TODO content array
+	// 
+
 	std::string content;
 
 	Word(std::string content) {
