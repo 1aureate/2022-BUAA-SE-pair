@@ -126,8 +126,8 @@ public:
 			genMaxAlphaNumChains();
 			break;
 		case Type::WORD_NUM:
-			if (!paramHandler.sameHead()) {
-				genLongestChains();// -h -t / (-h -t)
+			if (paramHandler.noSameHead()) {
+				genChainsLongestWords();
 			}
 			else {
 				genLongestChainsNoSameHead();
