@@ -62,42 +62,62 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_3">
+      <widget class="QCheckBox" name="checkBox_2">
        <property name="text">
         <string>-w</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_4">
+      <widget class="QCheckBox" name="checkBox_3">
        <property name="text">
         <string>-m</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QCheckBox" name="checkBox_4">
        <property name="text">
         <string>-c</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_6">
+      <widget class="QCheckBox" name="checkBox_5">
        <property name="text">
         <string>-h</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_7">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>输入-h参数</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit"/>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_6">
        <property name="text">
         <string>-t</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_5">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>输入-t参数</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_2"/>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_7">
        <property name="text">
         <string>-r</string>
        </property>
