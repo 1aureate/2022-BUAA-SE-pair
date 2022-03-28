@@ -11,7 +11,6 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import  os
-import mainFrame
 
 
 class Ui_Form(QtWidgets.QWidget):
