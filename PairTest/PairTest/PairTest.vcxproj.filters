@@ -13,13 +13,43 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\pair_dll">
+      <UniqueIdentifier>{ebb06666-dd83-47f3-bfe7-7e945cb6ac61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\pairTest">
+      <UniqueIdentifier>{99297092-7a36-484f-a2c3-c8f52962e7f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PairTest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair\pair\InputsHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair\pair\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair\pair\MException.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair\pair\OutputHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair\pair\ParamHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair\pair\WordListHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair_dll\pair_dll\pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair_dll\pair_dll\dllmain.cpp">
+      <Filter>源文件\pair_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="PairTest.cpp">
+      <Filter>源文件\pairTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +61,36 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair\pair\InputsHandler.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair\pair\main.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair\pair\MException.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair\pair\OutputHandler.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair\pair\ParamHandler.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair\pair\word.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair\pair\WordListHandler.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair_dll\pair_dll\framework.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair_dll\pair_dll\pch.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair_dll\pair_dll\dllmain.h">
+      <Filter>源文件\pair_dll</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

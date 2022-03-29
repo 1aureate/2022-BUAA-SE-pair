@@ -35,7 +35,7 @@ private:
 		}
 
 		for (auto& w : head2words[word.last]) {
-			if (visited[word.content]) {
+			if (visited[w.content]) {
 				continue;
 			}
 			dfsAllChain(w, path, ans);
@@ -144,8 +144,8 @@ public:
 			break;
 		case Type::CHAR_NUM: {
 			// -c
-			char ch1 = (paramHandler.SpecializedHead() == 0) ? '*' : paramHandler.SpecializedHead();
-			char ch2 = (paramHandler.SpecializedTail() == 0) ? '*' : paramHandler.SpecializedTail();
+			char ch1 = (paramHandler.specializedHead() == 0) ? '*' : paramHandler.specializedHead();
+			char ch2 = (paramHandler.specializedTail() == 0) ? '*' : paramHandler.specializedTail();
 			return genMaxAlphaNumChains(ch1, ch2);
 			break;
 		}
@@ -153,8 +153,8 @@ public:
 		case Type::WORD_NUM: {
 			// -w
 			if (paramHandler.noSameHead()) {
-				char ch1 = (paramHandler.SpecializedHead() == 0) ? '*' : paramHandler.SpecializedHead();
-				char ch2 = (paramHandler.SpecializedTail() == 0) ? '*' : paramHandler.SpecializedTail();
+				char ch1 = (paramHandler.specializedHead() == 0) ? '*' : paramHandler.specializedHead();
+				char ch2 = (paramHandler.specializedTail() == 0) ? '*' : paramHandler.specializedTail();
 				return genLongestChains(ch1, ch2);
 			}
 			else {

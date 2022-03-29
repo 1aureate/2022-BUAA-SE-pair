@@ -32,14 +32,14 @@ public:
 	void check(int argc, char* argv[]);
 
 	Type getType();
-	char SpecializedHead() {
+	char specializedHead() {
 		if (status & h) {
 			return head;
 		}
 		return 0;
 	}
 
-	char SpecializedTail() {
+	char specializedTail() {
 		if (status & t) {
 			return tail;
 		}
@@ -51,7 +51,7 @@ public:
 	}
 
 	bool noSameHead() {
-		return (status & m) == 0;
+		return (status & m) != 0;
 	}
 };
 
