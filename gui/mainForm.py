@@ -24,8 +24,12 @@ class Ui_Form(QtWidgets.QWidget):
         self.txt = ""
         self.result = ""
         self.cwd = os.getcwd()
-        self.file_name = ""
-        self.filetype = ""
+        self.sel_file_name = ""
+        self.save_file_name = ""
+        self.sel_filetype = ""
+        self.save_filetype = ""
+        self.run_result = ""
+        self.no = 0
 
 
 
@@ -129,17 +133,18 @@ class Ui_Form(QtWidgets.QWidget):
         # 存在效率问题
         self.textEdit.textChanged.connect(self.txt_content_change)
     def btn_select_file(self):
-        self.file_name, self.filetype = QtWidgets.QFileDialog.getOpenFileName(self,
+        self.sel_file_name, self.sel_filetype = QtWidgets.QFileDialog.getSaveFileName(self,
                                                                               "选取文件",
                                                                               self.cwd,
                                                                               "Text Files (*.txt)")
         self.label.setText("选择的文件: " + self.file_name)
 
+
     def btn_input_words(self):
-        if not os.path.isfile(self.file_name):
-            QtWidgets.QMessageBox.critical(self, "错误", "文件" + self.file_name + "不存在!")
+        if not os.path.isfile(self.sel_file_name):
+            QtWidgets.QMessageBox.critical(self, "错误", "文件" + self.sel_file_name + "不存在!")
         else:
-            f = open(self.file_name, 'r')
+            f = open(self.sel_file_name, 'r')
             # 文件占用异常？
             try:
                 print("进行读")
@@ -162,24 +167,101 @@ class Ui_Form(QtWidgets.QWidget):
             szProgSize = create_string_buffer(20000)
             pszProgSize = c_char_p(addressof(szProgSize))
             cast(STR, c_char_p)
-            print(func(STR, byref(pszProgSize)))
-            print(szProgSize.value)
+            print(func(STR, pszProgSize))
+            print(bytes.decode(szProgSize.value))
+            self.run_result = bytes.decode(szProgSize.value)
+            self.textBrowser.setText(bytes.decode(szProgSize.value))
         elif self.l[1]: # -w
             func = dll.gen_chain_word_python
             func.argtypes = [c_char_p, POINTER(c_char_p), c_char, c_char, c_bool]
             func.restype = c_int
+            STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
+            szProgSize = create_string_buffer(20000)
+            pszProgSize = c_char_p(addressof(szProgSize))
+            cast(STR, c_char_p)
+            ch1 = ""
+            ch2 = ""
+            head = 0
+            tail = 0
+            if self.l[4]:
+                ch1 = self.lineEdit.text()
+                if len(ch1) > 1:
+                    ""
+                elif len(ch1) == 0:
+                    ""
+                else:
+                    head = ord(ch1[0])
+            if self.l[5]:
+                ch2 = self.lineEdit_2.text()
+                if len(ch2) > 1:
+                    ""
+                elif len(ch2) == 0:
+                    ""
+                else:
+                    tail = ord(ch2[0])
+
+            print(func(STR, pszProgSize, c_char(head), c_char(tail), self.l[6]))
+            print(bytes.decode(szProgSize.value))
+            self.run_result = bytes.decode(szProgSize.value)
+            self.textBrowser.setText(bytes.decode(szProgSize.value))
         elif self.l[2]:
             func = dll.gen_chain_word_unique_python
             func.argtypes = [c_char_p, POINTER(c_char_p)]
             func.restype = c_int
+            STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
+            szProgSize = create_string_buffer(20000)
+            pszProgSize = c_char_p(addressof(szProgSize))
+            cast(STR, c_char_p)
+            print(func(STR, pszProgSize))
+            print(bytes.decode(szProgSize.value))
+            self.run_result = bytes.decode(szProgSize.value)
+            self.textBrowser.setText(bytes.decode(szProgSize.value))
         elif self.l[3]:
             func = dll.gen_chain_char_python
             func.argtypes = [c_char_p, POINTER(c_char_p), c_char, c_char, c_bool]
             func.restype = c_int
+            STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
+            szProgSize = create_string_buffer(20000)
+            pszProgSize = c_char_p(addressof(szProgSize))
+            cast(STR, c_char_p)
+            ch1 = ""
+            ch2 = ""
+            head = 0
+            tail = 0
+            if self.l[4]:
+                ch1 = self.lineEdit.text()
+                if len(ch1) > 1:
+                    ""
+                elif len(ch1) == 0:
+                    ""
+                else:
+                    head = ord(ch1[0])
+            if self.l[5]:
+                ch2 = self.lineEdit_2.text()
+                if len(ch2) > 1:
+                    ""
+                elif len(ch2) == 0:
+                    ""
+                else:
+                    tail = ord(ch2[0])
+
+            print(func(STR, pszProgSize, c_char(head), c_char(tail), self.l[6]))
+            print(bytes.decode(szProgSize.value))
+            self.run_result = bytes.decode(szProgSize.value)
+            self.textBrowser.setText(bytes.decode(szProgSize.value))
         return
 
     def btn_save_file(self):
-
+        self.save_file_name, self.save_filetype = QtWidgets.QFileDialog.getSaveFileName(self,
+                                                                              "选取文件",
+                                                                              self.cwd,
+                                                                              "Text Files (*.txt)")
+        if os.path.isfile(self.save_file_name):
+            QtWidgets.QMessageBox.critical(self, "错误", "文件" + self.sel_file_name + "已存在!")
+        else:
+            fo = open(self.save_file_name, "w")
+            fo.write(self.run_result)
+            fo.close()
         return
 
     def txt_content_change(self):
@@ -207,6 +289,7 @@ class Ui_Form(QtWidgets.QWidget):
             self.label_5.setVisible(False)
             self.lineEdit.setVisible(False)
             self.lineEdit.setDisabled(True)
+            self.lineEdit.setText("")
 
     def checkbox_choose5(self):
         self.l[5] = self.checkBox_6.checkState() == QtCore.Qt.CheckState.Checked
@@ -218,13 +301,10 @@ class Ui_Form(QtWidgets.QWidget):
             self.label_6.setVisible(False)
             self.lineEdit_2.setVisible(False)
             self.lineEdit_2.setDisabled(True)
+            self.lineEdit_2.setText("")
 
     def checkbox_choose6(self):
         self.l[6] = self.checkBox_7.checkState() == QtCore.Qt.CheckState.Checked
-
-
-
-
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate

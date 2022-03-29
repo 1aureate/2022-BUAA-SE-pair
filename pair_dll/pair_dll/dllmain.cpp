@@ -1,8 +1,8 @@
 ﻿// dllmain.cpp : 定义 DLL 应用程序的入口点。
 #include "pch.h"
 #include "dllmain.h"
-#include "D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair\pair\main.h"
-
+//#include "D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair\pair\main.h"
+#include "C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.h"
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -114,16 +114,13 @@ int gen_chains_all_python(char* words, char** result) {
 
     WordListHandler wh(ph, ws);
     std::vector<std::string> ans = wh.handle();
-
     auto ans_size = ans.size();
     std::string result_string = "";
     for (int i = 0; i < ans_size; i++) {
         auto len = ans[i].size();
         result_string = result_string + ans[i] + "\n";
     }
-    char* temp = new char[result_string.size() + 1];
-    strcpy_s(temp, result_string.size() + 1, result_string.c_str());
-    *result = temp;
+    strcpy_s(*result, result_string.size() + 1, result_string.c_str());
     return ans_size;
 }
 
@@ -143,9 +140,7 @@ int gen_chain_word_python(char* words, char** result, char head, char tail, bool
         auto len = ans[i].size();
         result_string = result_string + ans[i] + " ";
     }
-    char* temp = new char[result_string.size() + 1];
-    strcpy_s(temp, result_string.size() + 1, result_string.c_str());
-    *result = temp;
+    strcpy_s(*result, result_string.size() + 1, result_string.c_str());
     return ans_size;
 }
 
@@ -164,9 +159,7 @@ int gen_chain_word_unique_python(char* words, char** result) {
         auto len = ans[i].size();
         result_string = result_string + ans[i] + "\n";
     }
-    char* temp = new char[result_string.size() + 1];
-    strcpy_s(temp, result_string.size() + 1, result_string.c_str());
-    *result = temp;
+    strcpy_s(*result, result_string.size() + 1, result_string.c_str());
     return ans_size;
 }
 
@@ -185,8 +178,6 @@ int gen_chain_char_python(char* words, char** result, char head, char tail, bool
         auto len = ans[i].size();
         result_string = result_string + ans[i] + "\n";
     }
-    char* temp = new char[result_string.size() + 1];
-    strcpy_s(temp, result_string.size() + 1, result_string.c_str());
-    *result = temp;
+    strcpy_s(*result, result_string.size() + 1, result_string.c_str());
     return ans_size;
 }

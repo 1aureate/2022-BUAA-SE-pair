@@ -51,7 +51,7 @@ private:
 		visited[word.content] = true;
 
 		// TODO -r 异常数据检查
-		if (!paramHandler.allowCircle() && path.front().front() == path.back().back()) {
+		if (!paramHandler.allowCircle() && path.front().front() == path.back().back() && path.size() > 1) {
 			throw "there is a wordlist circle in the data!";
 		}
 
@@ -93,7 +93,7 @@ private:
 		visited[word.content] = true;
 		pathSum += word.content.size();
 
-		if (!paramHandler.allowCircle() && path.front().front() == path.back().back()) {
+		if (!paramHandler.allowCircle() && path.front().front() == path.back().back() && path.size()>1) {
 			throw "there is a wordlist circle in the data!";
 		}
 		
@@ -146,15 +146,17 @@ public:
 			// -c
 			char ch1 = (paramHandler.specializedHead() == 0) ? '*' : paramHandler.specializedHead();
 			char ch2 = (paramHandler.specializedTail() == 0) ? '*' : paramHandler.specializedTail();
+			std::cout << ch1 << " - " << ch2 << std::endl;
 			return genMaxAlphaNumChains(ch1, ch2);
 			break;
 		}
 			
 		case Type::WORD_NUM: {
 			// -w
-			if (paramHandler.noSameHead()) {
+			if (!paramHandler.noSameHead()) {
 				char ch1 = (paramHandler.specializedHead() == 0) ? '*' : paramHandler.specializedHead();
 				char ch2 = (paramHandler.specializedTail() == 0) ? '*' : paramHandler.specializedTail();
+				std::cout << ch1 << " - " << ch2 << std::endl;
 				return genLongestChains(ch1, ch2);
 			}
 			else {
@@ -175,8 +177,7 @@ public:
 
 		std::vector<std::string> real_ans;
 
-		
-
+	
 		for (auto& w : words) {
 			dfsAllChain(w, res, ans);
 		}
@@ -198,11 +199,9 @@ public:
 		std::vector<std::string> res;
 		// 从words中筛选出以 ch1 开头的字母
 		std::vector<Word> sample = samplePoints(ch1);
-			
 		for (auto& w : sample) {
 			dfsLongest(w, res, ans, ch2); // 在路径中找出以 ch2 结尾的最长单词链	  
 		}
-
 		/*std::ofstream out("solution.txt", std::ios::out);
 
 		for (auto& w : ans) {
