@@ -159,124 +159,171 @@ class Ui_Form(QtWidgets.QWidget):
 
     def btn_run_dll(self):
         #TODO some checks on conflicts between options & input
-        if self.l[0]: #-n
-            func = dll.gen_chains_all_python
-            func.argtypes = [c_char_p, POINTER(c_char_p), POINTER(c_char_p)]
-            func.restype = c_int
-            STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
-            cast(STR, c_char_p)
-            szProgSize = create_string_buffer(20000)
-            pszProgSize = c_char_p(addressof(szProgSize))
-            errProgSize = create_string_buffer(20000)
-            perrProgSize = c_char_p(addressof(errProgSize))
-            print(func(STR, pszProgSize, perrProgSize))
-            if bytes.decode(errProgSize.value) == '':
-                print(bytes.decode(szProgSize.value))
-                self.run_result = bytes.decode(szProgSize.value)
-                self.textBrowser.setText(bytes.decode(szProgSize.value))
-            else:
-                print(bytes.decode(errProgSize.value))
-                self.run_result = bytes.decode(errProgSize.value)
-                self.textBrowser.setText(bytes.decode(errProgSize.value))
-        elif self.l[1]: # -w
-            func = dll.gen_chain_word_python
-            func.argtypes = [c_char_p, POINTER(c_char_p), c_char, c_char, c_bool, POINTER(c_char_p)]
-            func.restype = c_int
-            STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
-            szProgSize = create_string_buffer(20000)
-            pszProgSize = c_char_p(addressof(szProgSize))
-            errProgSize = create_string_buffer(20000)
-            perrProgSize = c_char_p(addressof(errProgSize))
-            cast(STR, c_char_p)
-            ch1 = ""
-            ch2 = ""
-            head = 0
-            tail = 0
-            if self.l[4]:
-                ch1 = self.lineEdit.text()
-                if len(ch1) > 1:
-                    ""
-                elif len(ch1) == 0:
-                    ""
-                else:
-                    head = ord(ch1[0])
-            if self.l[5]:
-                ch2 = self.lineEdit_2.text()
-                if len(ch2) > 1:
-                    ""
-                elif len(ch2) == 0:
-                    ""
-                else:
-                    tail = ord(ch2[0])
 
-            print(func(STR, pszProgSize, c_char(head), c_char(tail), self.l[6], perrProgSize))
-            if bytes.decode(errProgSize.value) == '':
-                print(bytes.decode(szProgSize.value))
-                self.run_result = bytes.decode(szProgSize.value)
-                self.textBrowser.setText(bytes.decode(szProgSize.value))
-            else:
-                print(bytes.decode(errProgSize.value))
-                self.run_result = bytes.decode(errProgSize.value)
-                self.textBrowser.setText(bytes.decode(errProgSize.value))
+        ok = True
+        if self.l[0]:
+            if self.l[1] or self.l[2] or self.l[3] or self.l[4] or self.l[5] or self.l[6]:
+                QtWidgets.QMessageBox.critical(self, "错误", "-n 不可与其他选项连用！")
+                ok = False
+        elif self.l[1]:
+            if self.l[2] or self.l[3]:
+                QtWidgets.QMessageBox.critical(self, "错误", "-w 不可与-m -c选项连用！")
+                ok = False
+            if self.l[4] and len(self.lineEdit.text()) != 1:
+                QtWidgets.QMessageBox.critical(self, "错误", "-h 参数格式有误！")
+                ok = False
+            elif self.l[4] and not self.lineEdit.text().isalpha():
+                QtWidgets.QMessageBox.critical(self, "错误", "-h 参数不是字母")
+                ok = False
+            if self.l[5] and len(self.lineEdit_2.text()) != 1:
+                QtWidgets.QMessageBox.critical(self, "错误", "-t 参数格式有误！")
+                ok = False
+            elif self.l[5] and not self.lineEdit_2.text().isalpha():
+                QtWidgets.QMessageBox.critical(self, "错误", "-t 参数不是字母")
+                ok = False
         elif self.l[2]:
-            func = dll.gen_chain_word_unique_python
-            func.argtypes = [c_char_p, POINTER(c_char_p), POINTER(c_char_p)]
-            func.restype = c_int
-            STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
-            szProgSize = create_string_buffer(20000)
-            pszProgSize = c_char_p(addressof(szProgSize))
-            errProgSize = create_string_buffer(20000)
-            perrProgSize = c_char_p(addressof(errProgSize))
-            cast(STR, c_char_p)
-            print(func(STR, pszProgSize, perrProgSize))
-            if bytes.decode(errProgSize.value) == '':
-                print(bytes.decode(szProgSize.value))
-                self.run_result = bytes.decode(szProgSize.value)
-                self.textBrowser.setText(bytes.decode(szProgSize.value))
-            else:
-                print(bytes.decode(errProgSize.value))
-                self.run_result = bytes.decode(errProgSize.value)
-                self.textBrowser.setText(bytes.decode(errProgSize.value))
+            if self.l[3]:
+                QtWidgets.QMessageBox.critical(self, "错误", "-m 不可与其他选项连用！")
+                ok = False
         elif self.l[3]:
-            func = dll.gen_chain_char_python
-            func.argtypes = [c_char_p, POINTER(c_char_p), c_char, c_char, c_bool, POINTER(c_char_p)]
-            func.restype = c_int
-            STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
-            szProgSize = create_string_buffer(20000)
-            pszProgSize = c_char_p(addressof(szProgSize))
-            errProgSize = create_string_buffer(20000)
-            perrProgSize = c_char_p(addressof(errProgSize))
-            cast(STR, c_char_p)
-            ch1 = ""
-            ch2 = ""
-            head = 0
-            tail = 0
-            if self.l[4]:
-                ch1 = self.lineEdit.text()
-                if len(ch1) > 1:
-                    ""
-                elif len(ch1) == 0:
-                    ""
-                else:
-                    head = ord(ch1[0])
-            if self.l[5]:
-                ch2 = self.lineEdit_2.text()
-                if len(ch2) > 1:
-                    ""
-                elif len(ch2) == 0:
-                    ""
-                else:
-                    tail = ord(ch2[0])
+            if self.l[4] and len(self.lineEdit.text()) != 1 :
+                QtWidgets.QMessageBox.critical(self, "错误", "-h 参数格式有误！")
+                ok = False
+            elif self.l[4] and not self.lineEdit.text().isalpha():
+                QtWidgets.QMessageBox.critical(self, "错误", "-h 参数不是字母")
+                ok = False
 
-            print(func(STR, pszProgSize, c_char(head), c_char(tail), self.l[6], perrProgSize))
-            if bytes.decode(errProgSize.value) == '':
-                print(bytes.decode(szProgSize.value))
-                self.run_result = bytes.decode(szProgSize.value)
-                self.textBrowser.setText(bytes.decode(szProgSize.value))
-            else:
-                print(bytes.decode(errProgSize.value))
-                self.run_result = bytes.decode(errProgSize.value)
-                self.textBrowser.setText(bytes.decode(errProgSize.value))
+            if self.l[5] and len(self.lineEdit_2.text()) != 1:
+                QtWidgets.QMessageBox.critical(self, "错误", "-h 参数格式有误！")
+                ok = False
+            elif self.l[5] and not self.lineEdit_2.text().isalpha():
+                QtWidgets.QMessageBox.critical(self, "错误", "-t 参数不是字母")
+                ok = False
+        elif self.l[4] or self.l[5] or self.l[6]:
+            QtWidgets.QMessageBox.critical(self, "错误", "-h -t -r 不可缺少-n -m -w -c而单独使用！")
+            ok = False
+        else:
+            QtWidgets.QMessageBox.critical(self, "错误", "请选择启动选项")
+
+        if ok:
+            if self.l[0]: #-n
+                func = dll.gen_chains_all_python
+                func.argtypes = [c_char_p, POINTER(c_char_p), POINTER(c_char_p)]
+                func.restype = c_int
+                STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
+                cast(STR, c_char_p)
+                szProgSize = create_string_buffer(20000)
+                pszProgSize = c_char_p(addressof(szProgSize))
+                errProgSize = create_string_buffer(20000)
+                perrProgSize = c_char_p(addressof(errProgSize))
+                print(func(STR, pszProgSize, perrProgSize))
+                if bytes.decode(errProgSize.value) == '':
+                    print(bytes.decode(szProgSize.value))
+                    self.run_result = bytes.decode(szProgSize.value)
+                    self.textBrowser.setText(bytes.decode(szProgSize.value))
+                else:
+                    print(bytes.decode(errProgSize.value))
+                    self.run_result = bytes.decode(errProgSize.value)
+                    self.textBrowser.setText(bytes.decode(errProgSize.value))
+            elif self.l[1]: # -w
+                func = dll.gen_chain_word_python
+                func.argtypes = [c_char_p, POINTER(c_char_p), c_char, c_char, c_bool, POINTER(c_char_p)]
+                func.restype = c_int
+                STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
+                szProgSize = create_string_buffer(20000)
+                pszProgSize = c_char_p(addressof(szProgSize))
+                errProgSize = create_string_buffer(20000)
+                perrProgSize = c_char_p(addressof(errProgSize))
+                cast(STR, c_char_p)
+                ch1 = ""
+                ch2 = ""
+                head = 0
+                tail = 0
+                if self.l[4]:
+                    ch1 = self.lineEdit.text()
+                    if len(ch1) > 1:
+                        ""
+                    elif len(ch1) == 0:
+                        ""
+                    else:
+                        head = ord(ch1[0])
+                if self.l[5]:
+                    ch2 = self.lineEdit_2.text()
+                    if len(ch2) > 1:
+                        ""
+                    elif len(ch2) == 0:
+                        ""
+                    else:
+                        tail = ord(ch2[0])
+
+                print(func(STR, pszProgSize, c_char(head), c_char(tail), self.l[6], perrProgSize))
+                if bytes.decode(errProgSize.value) == '':
+                    print(bytes.decode(szProgSize.value))
+                    self.run_result = bytes.decode(szProgSize.value)
+                    self.textBrowser.setText(bytes.decode(szProgSize.value))
+                else:
+                    print(bytes.decode(errProgSize.value))
+                    self.run_result = bytes.decode(errProgSize.value)
+                    self.textBrowser.setText(bytes.decode(errProgSize.value))
+            elif self.l[2]:
+                func = dll.gen_chain_word_unique_python
+                func.argtypes = [c_char_p, POINTER(c_char_p), POINTER(c_char_p)]
+                func.restype = c_int
+                STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
+                szProgSize = create_string_buffer(20000)
+                pszProgSize = c_char_p(addressof(szProgSize))
+                errProgSize = create_string_buffer(20000)
+                perrProgSize = c_char_p(addressof(errProgSize))
+                cast(STR, c_char_p)
+                print(func(STR, pszProgSize, perrProgSize))
+                if bytes.decode(errProgSize.value) == '':
+                    print(bytes.decode(szProgSize.value))
+                    self.run_result = bytes.decode(szProgSize.value)
+                    self.textBrowser.setText(bytes.decode(szProgSize.value))
+                else:
+                    print(bytes.decode(errProgSize.value))
+                    self.run_result = bytes.decode(errProgSize.value)
+                    self.textBrowser.setText(bytes.decode(errProgSize.value))
+            elif self.l[3]:
+                func = dll.gen_chain_char_python
+                func.argtypes = [c_char_p, POINTER(c_char_p), c_char, c_char, c_bool, POINTER(c_char_p)]
+                func.restype = c_int
+                STR = (c_char * len(self.txt))(*bytes(self.txt, 'utf-8'))
+                szProgSize = create_string_buffer(20000)
+                pszProgSize = c_char_p(addressof(szProgSize))
+                errProgSize = create_string_buffer(20000)
+                perrProgSize = c_char_p(addressof(errProgSize))
+                cast(STR, c_char_p)
+                ch1 = ""
+                ch2 = ""
+                head = 0
+                tail = 0
+                if self.l[4]:
+                    ch1 = self.lineEdit.text()
+                    if len(ch1) > 1:
+                        ""
+                    elif len(ch1) == 0:
+                        ""
+                    else:
+                        head = ord(ch1[0])
+                if self.l[5]:
+                    ch2 = self.lineEdit_2.text()
+                    if len(ch2) > 1:
+                        ""
+                    elif len(ch2) == 0:
+                        ""
+                    else:
+                        tail = ord(ch2[0])
+
+                print(func(STR, pszProgSize, c_char(head), c_char(tail), self.l[6], perrProgSize))
+                if bytes.decode(errProgSize.value) == '':
+                    print(bytes.decode(szProgSize.value))
+                    self.run_result = bytes.decode(szProgSize.value)
+                    self.textBrowser.setText(bytes.decode(szProgSize.value))
+                else:
+                    print(bytes.decode(errProgSize.value))
+                    self.run_result = bytes.decode(errProgSize.value)
+                    self.textBrowser.setText(bytes.decode(errProgSize.value))
         return
 
     def btn_save_file(self):
@@ -285,7 +332,7 @@ class Ui_Form(QtWidgets.QWidget):
                                                                               self.cwd,
                                                                               "Text Files (*.txt)")
         if os.path.isfile(self.save_file_name):
-            QtWidgets.QMessageBox.critical(self, "错误", "文件" + self.sel_file_name + "已存在!")
+            QtWidgets.QMessageBox.critical(self, "错误", "文件名已存在!")
         else:
             fo = open(self.save_file_name, "w")
             fo.write(self.run_result)
