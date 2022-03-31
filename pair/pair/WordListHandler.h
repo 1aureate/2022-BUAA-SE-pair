@@ -4,6 +4,8 @@
 #include "InputsHandler.h"
 #include "ParamHandler.h"
 #include "stack"
+#include <algorithm>
+#include <unordered_set>
 
 
 class WordListHandler
@@ -52,7 +54,7 @@ private:
 
 		// TODO -r 异常数据检查
 		if (!paramHandler.allowCircle() && path.front().front() == path.back().back() && path.size() > 1) {
-			throw "there is a wordlist circle in the data!";
+			throw ExistsLoopException("there is a wordlist circle in the data!");
 		}
 
 		if (path.size() > ans.size() && path.size() > 1 && (word.last == ch || ch == '*')) {
@@ -94,7 +96,7 @@ private:
 		pathSum += word.content.size();
 
 		if (!paramHandler.allowCircle() && path.front().front() == path.back().back() && path.size()>1) {
-			throw "there is a wordlist circle in the data!";
+			throw ExistsLoopException("there is a wordlist circle in the data!");
 		}
 		
 		if (pathSum > sum && (ch == '*' || word.last == ch)) {
@@ -114,10 +116,24 @@ private:
 		path.pop_back();
 	}
 
+	void getRidOfDuplication(std::vector<Word>& _words) {
+		std::unordered_set<std::string> s;
+		std::vector<Word> new_words;
+		for (auto& w : _words) {
+			if (s.find(w.content) == s.end()) {
+				new_words.emplace_back(w);
+				s.emplace(w.content);
+			}
+		}
+		_words = new_words;
+	}
+
 public:
 
 	WordListHandler(ParamHandler& _paramHandler, std::vector<Word> _words) {
+		getRidOfDuplication(_words);
 
+		std::unordered_set<std::string> s;
 		for (int i = 0; i < 26; i++) {
 			head2words.emplace(i + 'a', std::list<Word>());
 			tail2words.emplace(i + 'a', std::list<Word>());
@@ -126,8 +142,13 @@ public:
 		words = _words;
 		paramHandler = _paramHandler;
 
-
 		for (auto w : words) {
+			if (s.find(w.content) == s.end()) {
+				s.emplace(w.content);
+			}
+			else {
+				continue;
+			}
 			head2words[w.first].emplace_back(w);
 			tail2words[w.last].emplace_back(w);
 			visited[w.content] = false;
@@ -146,7 +167,7 @@ public:
 			// -c
 			char ch1 = (paramHandler.specializedHead() == 0) ? '*' : paramHandler.specializedHead();
 			char ch2 = (paramHandler.specializedTail() == 0) ? '*' : paramHandler.specializedTail();
-			std::cout << ch1 << " - " << ch2 << std::endl;
+			// std::cout << ch1 << " - " << ch2 << std::endl; // What the fuck is this?
 			return genMaxAlphaNumChains(ch1, ch2);
 			break;
 		}
@@ -156,7 +177,7 @@ public:
 			if (!paramHandler.noSameHead()) {
 				char ch1 = (paramHandler.specializedHead() == 0) ? '*' : paramHandler.specializedHead();
 				char ch2 = (paramHandler.specializedTail() == 0) ? '*' : paramHandler.specializedTail();
-				std::cout << ch1 << " - " << ch2 << std::endl;
+				// std::cout << ch1 << " - " << ch2 << std::endl;
 				return genLongestChains(ch1, ch2);
 			}
 			else {
@@ -166,7 +187,7 @@ public:
 			break;
 		}
 		default:
-			throw "illegal param type!";
+			throw ParamException("illegal param type!");
 			break;
 		}
 	}
@@ -199,16 +220,11 @@ public:
 		std::vector<std::string> res;
 		// 从words中筛选出以 ch1 开头的字母
 		std::vector<Word> sample = samplePoints(ch1);
+
 		for (auto& w : sample) {
 			dfsLongest(w, res, ans, ch2); // 在路径中找出以 ch2 结尾的最长单词链	  
 		}
-		/*std::ofstream out("solution.txt", std::ios::out);
-
-		for (auto& w : ans) {
-			out << w << std::endl;
-		}
-
-		out.close();*/
+		
 		return ans;
 	}
 

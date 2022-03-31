@@ -18,8 +18,13 @@ public:
 };
 
 
-class FileNotExistException : public MException {
+class FileIllegalException : public MException {
 public:
-    FileNotExistException(std::string msg) : MException(msg) {}
+    FileIllegalException(std::string msg) : MException(msg) {}
+};
+
+class ExistsLoopException : public MException {
+public: 
+    ExistsLoopException(std::string msg) : MException(msg) {}
 };
 

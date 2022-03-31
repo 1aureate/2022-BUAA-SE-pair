@@ -6,7 +6,7 @@
 #include "D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair_dll\pair_dll\dllmain.h"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace PairTes {
+namespace PairTest {
 	TEST_CLASS(ParamHandlerTest) {
 	public:
 		TEST_METHOD(testAll)
@@ -62,7 +62,6 @@ namespace PairTes {
 			testCases.push_back(TestCase(7, argv8, Type::WORD_NUM, 'a', 'q', false, false));
 			char* argv9[] = { "pair.exe", "-h", "a", "-c", "test1.txt", "-t", "q" };
 			testCases.push_back(TestCase(7, argv9, Type::CHAR_NUM, 'a', 'q', false, false));
-
 			// test for -r
 			char* argv10[] = { "pair.exe", "-r", "-n", "test1.txt" };
 			testCases.push_back(TestCase(4, argv10, Type::CHAIN_NUM, 0, 0, true, false));
@@ -103,6 +102,12 @@ namespace PairTes {
 				}
 				catch (ParamException e) {
 					std::cout << "Catched ParamException in " << i;
+				}
+				catch (FileIllegalException e) {
+
+				}
+				catch (ExistsLoopException e) {
+
 				}
 			}
 		}
@@ -193,51 +198,60 @@ namespace PairTes {
 			};
 
 			char* words = "hello world!Ops& stupid!a";
-			char* result = nullptr;
-			int size = gen_chains_all_python(words, &result);
+			char* result = new char[200000];
+			char* error_msg;
+			int size = gen_chains_all_python(words, &result, &error_msg);
 			Assert::IsTrue(size != 0);
 		}
-		TEST_METHOD(testGenChainsWordPython) {
-			class GenChainsAllPythonTestCase {
-			public:
-				char* words;
-				std::string stdOutput;
-				GenChainsAllPythonTestCase(char* words, std::string stdOutput)
-					: words(words), stdOutput(stdOutput) {}
-			};
+		TEST_METHOD(testGenChainWordPython) {
 
-			char* words = "hello world!Ops& stupid!a";
-			char* result = nullptr;
-			int size = gen_chains_all_python(words, &result);
-			Assert::IsTrue(size != 0);
 		}
 		TEST_METHOD(testGenChainWordUniquePython) {
-			class GenChainsAllPythonTestCase {
-			public:
-				char* words;
-				std::string stdOutput;
-				GenChainsAllPythonTestCase(char* words, std::string stdOutput)
-					: words(words), stdOutput(stdOutput) {}
-			};
-
-			char* words = "hello world!Ops& stupid!a";
-			char* result = nullptr;
-			int size = gen_chains_all_python(words, &result);
-			Assert::IsTrue(size != 0);
+			
 		}
 		TEST_METHOD(testGenChainCharPython) {
-			class GenChainsAllPythonTestCase {
+			
+		}
+		TEST_METHOD(testGenChainsAll) {
+			class GenChainsAllTestCase {
 			public:
-				char* words;
-				std::string stdOutput;
-				GenChainsAllPythonTestCase(char* words, std::string stdOutput)
-					: words(words), stdOutput(stdOutput) {}
+				char* words[100];
+				int len;
+				int stdChainNum;
+				GenChainsAllTestCase(char* words[], int len, int stdChainNum)
+					: len(len), stdChainNum(stdChainNum) {
+					for (int i = 0; i < len; i++) {
+						this->words[i] = words[i];
+					}
+				}
 			};
+			std::vector<GenChainsAllTestCase> testCases;
+			char* words1[] = { "woo", "oom", "moon", "noox" };
+			//testCases.push_back(GenChainsAllTestCase(words1, 4, 6));
+			char* words2[] = { "Algebra", "Apple", "Zoo", "Elephant", "Elephant", "Under", "Fox", "Dog", "Moon", "Leaf", "Trick", "Pseudopseudohypoparathyroidism"};
+			testCases.push_back(GenChainsAllTestCase(words2, 12, 8));
+			char* words3[] = { "woo"};
+			testCases.push_back(GenChainsAllTestCase(words3, 1, 0));
+			char* words4[1] = {};
+			// testCases.push_back(GenChainsAllTestCase(words4, 0, 0));
 
-			char* words = "hello world!Ops& stupid!a";
-			char* result = nullptr;
-			int size = gen_chains_all_python(words, &result);
-			Assert::IsTrue(size != 0);
+			auto result = new char* [10000];
+			for (auto& testCase : testCases) {
+				int chainNum = gen_chains_all(testCase.words, testCase.len, result);
+				Assert::AreEqual(chainNum, testCase.stdChainNum);
+			}
+		}
+
+		TEST_METHOD(testGenChainWord) {
+
+		}
+
+		TEST_METHOD(testGenChainWordUnique) {
+
+		}
+
+		TEST_METHOD(tsetGenChainChar) {
+
 		}
 	};
 }

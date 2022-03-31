@@ -77,7 +77,7 @@ std::vector<Word> InputsHandler::handle(std::string _filename)
 	std::ifstream in;
 	in.open(_filename, std::ios::in);
 	if (!in.is_open()) {
-		throw FileNotExistException("cant open file " + _filename);
+		throw FileIllegalException("cant open file " + _filename);
 	}
 	std::cout << "start" << std::endl;
 	in.seekg(0, std::ios::end);
