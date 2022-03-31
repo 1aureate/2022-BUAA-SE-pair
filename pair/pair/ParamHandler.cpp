@@ -1,6 +1,6 @@
 #include "ParamHandler.h"
 ParamHandler::ParamHandler(Type type, char head, char tail, bool enable_loop, bool noSameHead) :
-	head(0), tail(0), status(0) {
+	head(0), tail(0), status(0), fileName("") {
 	switch (type)
 	{
 	case Type::CHAIN_NUM:
@@ -31,12 +31,20 @@ ParamHandler::ParamHandler(Type type, char head, char tail, bool enable_loop, bo
 		status |= m;
 	}
 }
-void ParamHandler::check(int argc, char* argv[])
-{
+
+ParamHandler::ParamHandler(int argc, char* argv[]) 
+	: head(0), tail(0), status(0), fileName("") {
+	if (argc < 2) {
+		throw ParamException("Please specify -n -w -m -c");
+	}
 	int flag = 0;
-	for (int i = 1; i < argc - 1; i++) {
-		char* s = argv[i];
+	int preParam = 0;
+	for (int i = 1; i < argc; i++) {
+		char const * s = argv[i];
 		if (s[0] == '-') {
+			if (preParam & (n | w | c | m)) {
+				throw ParamException("Please input filename after -n -w -m or -c");
+			}
 			if (s[1] == '\0' || s[2] != '\0') {
 				throw ParamException("There are redundant character or missed cahrecter after '-'");
 			}
@@ -47,24 +55,28 @@ void ParamHandler::check(int argc, char* argv[])
 					throw ParamException("duplicated option");
 				}
 				status |= n;
+				preParam = n;
 				break;
 			case 'w':
 				if (status & w) {
 					throw ParamException("duplicated option");
 				}
 				status |= w;
+				preParam = w;
 				break;
 			case 'm':
 				if (status & m) {
 					throw ParamException("duplicated option");
 				}
 				status |= m;
+				preParam = m;
 				break;
 			case 'c':
 				if (status & c) {
 					throw ParamException("duplicated option");
 				}
 				status |= c;
+				preParam = c;
 				break;
 			case 'h':
 				if (status & h) {
@@ -72,18 +84,21 @@ void ParamHandler::check(int argc, char* argv[])
 				}
 				flag = 1;
 				status |= h;
+				preParam = h;
 				break;
 			case 't':
 				if (status & t) {
 					throw ParamException("duplicated option");
 				}
 				status |= t;
+				preParam = t;
 				break;
 			case 'r':
 				if (status & r) {
 					throw ParamException("duplicated option");
 				}
 				status |= r;
+				preParam = r;
 				break;
 			default:
 				throw ParamException("unrecognized options: -" + s[1]);
@@ -91,48 +106,43 @@ void ParamHandler::check(int argc, char* argv[])
 			}
 		}
 		else {
-			if (s[1] != '\0') {
-				throw ParamException("There is redundent character");
-			}
-			if (flag) {
-				if (flag == 1) {
+			if (preParam == h || preParam == t) {
+				if (s[1] != '\0') {
+					throw ParamException("There is redundent character");
+				} else if (tolower(s[0]) < 'a' || tolower(s[0]) > 'z') {
+					throw ParamException("unrecognied character, please use English alphabet.");
+				}
+				if (preParam == h) {
 					head = s[0];
 				}
-				else if (flag == 2) {
+				else {
 					tail = s[0];
 				}
 			}
+			else if ((preParam & (n | w | m | c)) != 0) {
+				// 说明前一个是-n -w -m -c中的一个
+				fileName = std::string(s);
+				auto r = checkFileName(fileName);
+				if (r == false) {
+					throw FileIllegalException("Please make sure the filename end up with '.txt'");
+				}
+			}
 			else {
-				throw ParamException("There is no -t or -n");
+				throw ParamException("Please input -n -w -c- m -h -t first");
 			}
 		}
+
 	}
-	// contradicted options detection
-	if ((status & n) && (status - n)) {
-		throw ParamException("option -n is incompatible with other options");
+	if (fileName == "") {
+		throw ParamException("Please input filename");
 	}
-	if ((status & m) && (status - m)) {
-		throw ParamException("option -m is incompatible with other options");
+}
+
+bool ParamHandler::checkFileName(std::string& s) {
+	if (s.size() < 4 || s.substr(s.size() - 4, s.size()) != std::string(".txt")) {
+		return false;
 	}
-	int cnt = 0;
-	if (status & n) {
-		cnt++;
-	}
-	if (status & w) {
-		cnt++;
-	}
-	if (status & m) {
-		cnt++;
-	}
-	if (status & c) {
-		cnt++;
-	}
-	if (cnt == 0) {
-		throw ParamException("There is no any option");
-	}
-	if (cnt > 1) {
-		throw ParamException("-n, -w, -m, -c are contradicted");
-	}
+	return true;
 }
 
 Type ParamHandler::getType()
@@ -151,6 +161,6 @@ Type ParamHandler::getType()
 	}
 	else
 	{
-		throw "nmsl";
+		throw ParamException("Unhandled type, please contact the developer.");
 	}
 }

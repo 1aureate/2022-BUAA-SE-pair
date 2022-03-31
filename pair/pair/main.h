@@ -11,3 +11,5 @@
 #include "OutputHandler.h"
 
 
+#define DEBUG true
+

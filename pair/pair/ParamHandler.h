@@ -23,13 +23,11 @@ private:
 public:
 	ParamHandler() : head(0), tail(0), status(0) {}
 
-	ParamHandler(Type type, char head, char tail, bool enable_loop, bool sameHead);
+	ParamHandler(Type type, char head, char tail, bool enable_loop, bool noSameHead);
 
-	ParamHandler(int argc, char* argv[]) : head(0), tail(0), status(0) {
-		check(argc, argv);
-	}
+	ParamHandler(int argc, char * argv[]);
 
-	void check(int argc, char* argv[]);
+	bool checkFileName(std::string& s);
 
 	Type getType();
 	char specializedHead() {
@@ -52,6 +50,10 @@ public:
 
 	bool noSameHead() {
 		return (status & m) != 0;
+	}
+
+	std::string getFileName() {
+		return fileName;
 	}
 };
 

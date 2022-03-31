@@ -7,25 +7,58 @@
 
 int main(int argc, char* argv[])
 {
-	
-	ParamHandler paramHandler(argc, argv);
-	std::cout << "param handled" << std::endl;
-	InputsHandler inputsHandler;
-	std::vector<Word> words = inputsHandler.handle(argv[argc-1]);
-	std::cout << "inputs handled" << std::endl;
-	WordListHandler wordListHandler(paramHandler, words);
-	std::cout << "start wordListHandler" << std::endl;
-	std::vector<std::string> ans = wordListHandler.handle();
+	try {
+		if (DEBUG) {
+			int argc = 4;
+			
+			char * argv[] = { "pair.exe", "-w", "-h", "w"};
+			argv[0] = "pair.exe";
+			ParamHandler paramHandler(argc, argv);
+			std::cout << "[msg]: param handled" << std::endl;
+			InputsHandler inputsHandler;
+			std::vector<Word> words = inputsHandler.handle(paramHandler.getFileName());
+			std::cout << "[msg]: inputs handled" << std::endl;
+			/*ParamHandler paramHandler(Type::WORD_NUM, 0, 0, false, false);
+			std::cout << "[msg]: param handled" << std::endl;
+			InputsHandler inputsHandler;
+			std::vector<Word> words = { Word("moo"), Word("oon"), Word("nooo"), Word("oot") };
+			std::cout << "[msg]: inputs handled" << std::endl;*/
+			WordListHandler wordListHandler(paramHandler, words);
+			std::cout << "[msg]: start wordListHandler" << std::endl;
+			std::vector<std::string> ans = wordListHandler.handle();
+			STDOutputHandler soh;
+			soh.output(ans);
+		}
+		else {
+			ParamHandler paramHandler(argc, argv);
+			std::cout << "[msg]: param handled" << std::endl;
+			InputsHandler inputsHandler;
+			std::vector<Word> words = inputsHandler.handle(argv[argc - 1]);
+			std::cout << "[msg]: inputs handled" << std::endl;
+			WordListHandler wordListHandler(paramHandler, words);
+			std::cout << "[msg]: start wordListHandler" << std::endl;
+			std::vector<std::string> ans = wordListHandler.handle();
 
-	if (paramHandler.getType() == Type::CHAIN_NUM) {
-		STDOutputHandler soh;
-		soh.output(ans);
+			if (paramHandler.getType() == Type::CHAIN_NUM) {
+				STDOutputHandler soh;
+				soh.output(ans);
+			}
+			else {
+				FileOutputHandler foh("solution.txt");
+				foh.output(ans);
+			}
+		}
+		std::cout << "[msg]: target handled" << std::endl;
 	}
-	else {
-		FileOutputHandler foh("solution.txt");
-		foh.output(ans);
+	catch (ParamException pe) {
+		std::cout << "[error]: " << pe.what();
 	}
-	std::cout << "target handled" << std::endl;
+	catch (FileIllegalException fe) {
+		std::cout << "[error]: " << fe.what();
+	}
+	catch (ExistsLoopException ee) {
+		std::cout << "[error]: " << ee.what();
+	}
 	return 0;
 }
 

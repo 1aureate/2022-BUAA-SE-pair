@@ -29,6 +29,7 @@ public:
 class STDOutputHandler : public OutputHandler {
 public:
 	void output(std::vector<std::string> s) {
+
 		for (auto e : s) {
 			std::cout << e << std::endl;
 		}
