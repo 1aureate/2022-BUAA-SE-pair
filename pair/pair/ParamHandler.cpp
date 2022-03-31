@@ -118,6 +118,7 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 				else {
 					tail = s[0];
 				}
+
 			}
 			else if ((preParam & (n | w | m | c)) != 0) {
 				// 说明前一个是-n -w -m -c中的一个
@@ -130,6 +131,7 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 			else {
 				throw ParamException("Please input -n -w -c- m -h -t first");
 			}
+			preParam = 0;
 		}
 
 	}

@@ -11,6 +11,7 @@ std::string InputsHandler::getWord(std::ifstream& _in)
 		{
 			_in.get(ch);
 		}
+
 		while (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) && _in.peek() != EOF) {
 			if (ch >= 'a' && ch <= 'z') {
 				res += ch;
@@ -55,7 +56,6 @@ std::vector<Word> InputsHandler::extractWords(const std::string& s)
 			i++;
 			ch = s[i];
 		}
-
 		if (i == len && ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))) {
 			if (ch >= 'a' && ch <= 'z') {
 				res += ch;

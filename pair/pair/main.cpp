@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 		if (DEBUG) {
 			int argc = 4;
 			
-			char * argv[] = { "pair.exe", "-w", "-h", "w"};
+			char * argv[] = { "pair.exe", "-w", "test.txt", "-r"};
 			argv[0] = "pair.exe";
 			ParamHandler paramHandler(argc, argv);
 			std::cout << "[msg]: param handled" << std::endl;

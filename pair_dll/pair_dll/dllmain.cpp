@@ -140,8 +140,11 @@ int gen_chains_all_python(char* words, char** result, char** error_msg) {
         strcpy_s(*result, result_string.size() + 1, result_string.c_str());
         return ans_size;
     }
-    catch (std::exception e) {
-        strcpy_s(*error_msg, strlen(e.what()), e.what());
+    catch (ExistsLoopException e) {
+        auto s = e.what();
+        for (int i = 0; s[i] != '\0'; i++) {
+            (*error_msg)[i] = s[i];
+        }
         return -1;
     }
 }
@@ -167,8 +170,9 @@ int gen_chain_word_python(char* words, char** result, char head,
         strcpy_s(*result, result_string.size() + 1, result_string.c_str());
         return ans_size;
     }
-    catch (std::exception e) {
-        strcpy_s(*error_msg, strlen(e.what()), e.what());
+    catch (ExistsLoopException e) {
+        char* s = (char*) e.what();
+        strcpy_s(*error_msg, strlen(s) + 1, s);
         return -1;
     }
 }
@@ -193,8 +197,11 @@ int gen_chain_word_unique_python(char* words, char** result, char** error_msg) {
         strcpy_s(*result, result_string.size() + 1, result_string.c_str());
         return ans_size;
     }
-    catch (std::exception e) {
-        strcpy_s(*error_msg, strlen(e.what()), e.what());
+    catch (ExistsLoopException e) {
+        auto s = e.what();
+        for (int i = 0; s[i] != '\0'; i++) {
+            (*error_msg)[i] = s[i];
+        }
         return -1;
     }
 }
@@ -219,8 +226,11 @@ int gen_chain_char_python(char* words, char** result, char head, char tail,
         strcpy_s(*result, result_string.size() + 1, result_string.c_str());
         return ans_size;
     }
-    catch (std::exception e) {
-        strcpy_s(*error_msg, strlen(e.what()), e.what());
+    catch (ExistsLoopException e) {
+        auto s = e.what();
+        for (int i = 0; s[i] != '\0'; i++) {
+            (*error_msg)[i] = s[i];
+        }
         return -1;
     }
 }

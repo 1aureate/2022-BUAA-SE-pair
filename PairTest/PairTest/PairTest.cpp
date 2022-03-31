@@ -3,7 +3,7 @@
 #include "sp.h"
 #include <iostream>
 #include <vector>
-#include "D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair_dll\pair_dll\dllmain.h"
+#include "../../pair_dll/pair_dll/dllmain.h"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace PairTest {
@@ -199,12 +199,16 @@ namespace PairTest {
 
 			char* words = "hello world!Ops& stupid!a";
 			char* result = new char[200000];
-			char* error_msg;
+			char* error_msg = new char[200000];
 			int size = gen_chains_all_python(words, &result, &error_msg);
 			Assert::IsTrue(size != 0);
 		}
 		TEST_METHOD(testGenChainWordPython) {
-
+			char* words = "Element Heaven Table Teach Talk";
+			char* result = new char[200000];
+			char* error_msg = new char[2000];
+			int size = gen_chain_word_python(words, &result, 0, 0, false, &error_msg);
+			Assert::IsTrue(size != 0);
 		}
 		TEST_METHOD(testGenChainWordUniquePython) {
 			
