@@ -21,24 +21,33 @@ int fib(int n) {
 }
 // result只存储一个字符串
 int gen_chain_word(char* words[], int len, char* result[], char head, char tail, bool enable_loop) {
-    ParamHandler ph(Type::WORD_NUM, head, tail, enable_loop, false);
-    std::vector<Word> ws(len);
-    for (int i = 0; i < len; i++) {
-        ws[i] = Word(std::string(words[i]));
-    }
-    WordListHandler wh(ph, ws);
-    std::vector<std::string> ans = wh.handle();
+    try {
+        ParamHandler ph(Type::WORD_NUM, head, tail, enable_loop, false);
+        std::vector<Word> ws(len);
+        for (int i = 0; i < len; i++) {
+            ws[i] = Word(std::string(words[i]));
+        }
+        WordListHandler wh(ph, ws);
+        std::vector<std::string> ans = wh.handle();
 
-    auto ans_size = ans.size();
-    std::string result_string = "";
-    for (auto i = ans_size - ans_size; i < ans_size; i++) {
-        // c_str return a "const char *" type, so we need to copy the origin string 
-        auto len = ans[i].size();
-        char* temp = new char[len + 1];
-        strcpy_s(temp, len + 1, ans[i].c_str());
-        result[i] = temp;
+        auto ans_size = ans.size();
+        if (ans_size > 20000) {
+            return -1;
+        }
+        std::string result_string = "";
+        for (auto i = ans_size - ans_size; i < ans_size; i++) {
+            // c_str return a "const char *" type, so we need to copy the origin string 
+            auto len = ans[i].size();
+            char* temp = new char[len + 1];
+            strcpy_s(temp, len + 1, ans[i].c_str());
+            result[i] = temp;
+        }
+        return ans_size;
     }
-    return ans_size;
+    catch (std::exception e) {
+        return -1;
+    }
+    
 }
 
 int gen_chains_all(char* words[], int len, char* result[]) {
@@ -52,7 +61,9 @@ int gen_chains_all(char* words[], int len, char* result[]) {
         std::vector<std::string> ans = wh.handle();
 
         auto ans_size = ans.size();
-        std::string result_string = "";
+        if (ans_size > 20000) {
+            return -1;
+        }        std::string result_string = "";
         for (int i = 0; i < ans_size; i++) {
             auto len = ans[i].size();
             char* temp = new char[len + 1];
@@ -78,6 +89,9 @@ int gen_chain_word_unique(char* words[], int len,  char* result[]) {
         std::vector<std::string> ans = wh.handle();
 
         auto ans_size = ans.size();
+        if (ans_size > 20000) {
+            return -1;
+        }
         std::string result_string = "";
         for (int i = 0; i < ans_size; i++) {
             auto len = ans[i].size();
@@ -104,6 +118,9 @@ int gen_chain_char(char* words[], int len, char* result[],
         std::vector<std::string> ans = wh.handle();
 
         auto ans_size = ans.size();
+        if (ans_size > 20000) {
+            return -1;
+        }
         std::string result_string = "";
         for (int i = 0; i < ans_size; i++) {
             auto len = ans[i].size();

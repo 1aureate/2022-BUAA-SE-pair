@@ -3,8 +3,25 @@
 // TODO handle the header
 
 #include "main.h"
+#include <Windows.h>
 
+int main(int argc, char* argv[]) {
+	HINSTANCE hdll;
+	hdll = LoadLibrary(L"../../pair_dll/x64/Debug/pair_dll.dll");
+	if (hdll == nullptr) {
+		std::cout << "[error]: can't find dll file";
+		return 0;
+	}
+	int (*func1)(char* [], int, char* []) = (int (*)(char* [], int, char* []))GetProcAddress(hdll, "gen_chains_all");
+	char* words[] = { "moox", "xooy", "yoot", "toop" };
+	auto result = new char* [20000];
+	int r = func1(words, 4, result);
+	std::cout << "r = " << r << std::endl;
+	std::cout << "result[0] = " << result[0];
 
+	return 0;
+}
+/*
 int main(int argc, char* argv[])
 {
 	try {
@@ -18,11 +35,6 @@ int main(int argc, char* argv[])
 			InputsHandler inputsHandler;
 			std::vector<Word> words = inputsHandler.handle(paramHandler.getFileName());
 			std::cout << "[msg]: inputs handled" << std::endl;
-			/*ParamHandler paramHandler(Type::WORD_NUM, 0, 0, false, false);
-			std::cout << "[msg]: param handled" << std::endl;
-			InputsHandler inputsHandler;
-			std::vector<Word> words = { Word("moo"), Word("oon"), Word("nooo"), Word("oot") };
-			std::cout << "[msg]: inputs handled" << std::endl;*/
 			WordListHandler wordListHandler(paramHandler, words);
 			std::cout << "[msg]: start wordListHandler" << std::endl;
 			std::vector<std::string> ans = wordListHandler.handle();
@@ -61,14 +73,4 @@ int main(int argc, char* argv[])
 	}
 	return 0;
 }
-
-// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
-// 调试程序: F5 或调试 >“开始调试”菜单
-
-// 入门使用技巧: 
-//   1. 使用解决方案资源管理器窗口添加/管理文件
-//   2. 使用团队资源管理器窗口连接到源代码管理
-//   3. 使用输出窗口查看生成输出和其他消息
-//   4. 使用错误列表窗口查看错误
-//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
-//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件
+*/
