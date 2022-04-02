@@ -28,12 +28,16 @@ private:
 		}
 	}
 
-	void dfsAllChain(Word& word, std::stack<std::string>& path, std::vector<std::stack<std::string>>& ans) {
+	void dfsAllChain(Word& word, std::vector<std::string>& path, std::vector<std::vector<std::string>>& ans) {
 
-		path.push(word.content);
+		path.emplace_back(word.content);
 		visited[word.content] = true;
 		if (path.size() > 1) {
 			ans.emplace_back(path);
+		}
+
+		if (!paramHandler.allowCircle() && path.front().front() == path.back().back() && path.size() > 1) {
+			throw ExistsLoopException("there is a wordlist circle in the data!");
 		}
 
 		for (auto& w : head2words[word.last]) {
@@ -43,7 +47,7 @@ private:
 			dfsAllChain(w, path, ans);
 		}
 		visited[word.content] = false;
-		path.pop();
+		path.pop_back();
 	}
 
 	// -h -r -t
