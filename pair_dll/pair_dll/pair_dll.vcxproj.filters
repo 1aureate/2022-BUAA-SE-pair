@@ -53,9 +53,6 @@
     <ClCompile Include="..\..\pair\pair\InputsHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\pair\pair\main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\pair\pair\MException.cpp">
       <Filter>源文件</Filter>
     </ClCompile>

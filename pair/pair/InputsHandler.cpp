@@ -34,9 +34,9 @@ std::string InputsHandler::getWord(std::ifstream& _in)
 	}
 }
 
-std::vector<Word> InputsHandler::extractWords(const std::string& s)
+std::vector<std::string> InputsHandler::extractWords(const std::string& s)
 {
-	std::vector<Word> words;
+	std::vector<std::string> words;
 	auto len = s.size();
 	for (auto i = len - len; i < len; i++) {
 		char ch = s[i];
@@ -72,7 +72,7 @@ std::vector<Word> InputsHandler::extractWords(const std::string& s)
 	return words;
 }
 
-std::vector<Word> InputsHandler::handle(std::string _filename)
+std::vector<std::string> InputsHandler::handle(std::string _filename)
 {
 	std::ifstream in;
 	in.open(_filename, std::ios::in);

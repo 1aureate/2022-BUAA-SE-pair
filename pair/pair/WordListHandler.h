@@ -73,20 +73,20 @@ private:
 
 	void dfsLongestNoSameHead(Word& word, std::vector<std::string>& path, std::vector<std::string>& ans, std::vector<bool>& heads) {
 		path.emplace_back(word.content);
-		heads[word.first-'a'] = true;
+		heads[(int)(word.first) - (int)'a'] = true;
 		visited[word.content] = true;
 		if (path.size() > ans.size()) {
 			ans = path;
 		}
 
 		for (auto& w : head2words[word.last]) {
-			if (heads[w.first-'a'] || visited[w.content]) {
+			if (heads[(int)(word.first) - 'a'] || visited[w.content]) {
 				continue;
 			}
 			dfsLongestNoSameHead(w, path, ans, heads);
 		}
 		visited[word.content] = false;
-		heads[word.first-'a'] = false;
+		heads[(int)(word.first)-'a'] = false;
 		path.pop_back();
 	}
 
