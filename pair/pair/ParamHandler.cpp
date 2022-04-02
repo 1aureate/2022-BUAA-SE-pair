@@ -120,7 +120,7 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 				}
 
 			}
-			else if ((preParam & (n | w | m | c)) != 0) {
+			else {
 				// 说明前一个是-n -w -m -c中的一个
 				fileName = std::string(s);
 				auto r = checkFileName(fileName);
@@ -128,12 +128,8 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 					throw FileIllegalException("Please make sure the filename end up with '.txt'");
 				}
 			}
-			else {
-				throw ParamException("Please input -n -w -c- m -h -t first");
-			}
 			preParam = 0;
 		}
-
 	}
 	if (fileName == "") {
 		throw ParamException("Please input filename");

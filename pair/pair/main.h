@@ -9,6 +9,9 @@
 #include "WordListHandler.h"
 #include "word.h"
 #include "OutputHandler.h"
+#include "ErrorCodeHandler.h"
+
+char** vectorString2charArray(std::vector<std::string> words);
 
 
 #define DEBUG true
