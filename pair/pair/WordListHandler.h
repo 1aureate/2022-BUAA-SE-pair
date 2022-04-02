@@ -16,6 +16,9 @@ private:
 	std::unordered_map<char, std::list<Word>> tail2words;
 	std::vector<Word> words;
 	std::unordered_map<std::string, bool> visited;
+	std::vector<int> chVis;
+
+
 
 	std::vector<Word> samplePoints(char ch) {
 		if (ch == '*') {
@@ -28,9 +31,31 @@ private:
 		}
 	}
 
-	void dfsAllChain(Word& word, std::stack<std::string>& path, std::vector<std::stack<std::string>>& ans) {
+	void dfsCheck(Word& word, std::vector<std::string>& path) {
+		path.emplace_back(word.content);
+		visited[word.content] = true;
 
-		path.push(word.content);
+		if (path.front().front() == path.back().back() && path.size() > 1) {
+			std::string tmp = "";
+			for (auto& s : path) {
+				tmp = tmp + " " + s;
+			}
+			throw ExistsLoopException("there is a circle in the data: " + tmp);
+		}
+
+		for (auto& w : head2words[word.last]) {
+			if (visited[w.content]) {
+				continue;
+			}
+			dfsCheck(w, path);
+		}
+		visited[word.content] = false;
+		path.pop_back();
+	}
+
+	void dfsAllChain(Word& word, std::vector<std::string>& path, std::vector<std::vector<std::string>>& ans) {
+
+		path.emplace_back(word.content);
 		visited[word.content] = true;
 		if (path.size() > 1) {
 			ans.emplace_back(path);
@@ -43,19 +68,14 @@ private:
 			dfsAllChain(w, path, ans);
 		}
 		visited[word.content] = false;
-		path.pop();
+		path.pop_back();
 	}
 
-	// -h -r -t
+	// -w -h -r  -t
 	void dfsLongest(Word& word, std::vector<std::string>& path, std::vector<std::string>& ans, char ch) {
 
 		path.emplace_back(word.content);
 		visited[word.content] = true;
-
-		// TODO -r Òì³£Êý¾Ý¼ì²é
-		if (!paramHandler.allowCircle() && path.front().front() == path.back().back() && path.size() > 1) {
-			throw ExistsLoopException("there is a wordlist circle in the data!");
-		}
 
 		if (path.size() > ans.size() && path.size() > 1 && (word.last == ch || ch == '*')) {
 			ans = path;
@@ -73,20 +93,20 @@ private:
 
 	void dfsLongestNoSameHead(Word& word, std::vector<std::string>& path, std::vector<std::string>& ans, std::vector<bool>& heads) {
 		path.emplace_back(word.content);
-		heads[(int)(word.first) - (int)'a'] = true;
+		heads[word.first - 'a'] = true;
 		visited[word.content] = true;
 		if (path.size() > ans.size()) {
 			ans = path;
 		}
 
 		for (auto& w : head2words[word.last]) {
-			if (heads[(int)(word.first) - 'a'] || visited[w.content]) {
+			if (heads[w.first - 'a'] || visited[w.content]) {
 				continue;
 			}
 			dfsLongestNoSameHead(w, path, ans, heads);
 		}
 		visited[word.content] = false;
-		heads[(int)(word.first)-'a'] = false;
+		heads[word.first - 'a'] = false;
 		path.pop_back();
 	}
 
@@ -95,10 +115,6 @@ private:
 		visited[word.content] = true;
 		pathSum += word.content.size();
 
-		if (!paramHandler.allowCircle() && path.front().front() == path.back().back() && path.size()>1) {
-			throw ExistsLoopException("there is a wordlist circle in the data!");
-		}
-		
 		if (pathSum > sum && (ch == '*' || word.last == ch)) {
 			ans = path;
 			sum = pathSum;
@@ -110,7 +126,7 @@ private:
 			}
 			dfsMaxAlphaNum(w, path, pathSum, ans, sum, ch);
 		}
-		
+
 		visited[word.content] = false;
 		pathSum -= word.content.size();
 		path.pop_back();
@@ -137,12 +153,13 @@ public:
 		for (int i = 0; i < 26; i++) {
 			head2words.emplace(i + 'a', std::list<Word>());
 			tail2words.emplace(i + 'a', std::list<Word>());
+			chVis.emplace_back(false);
 		}
-		
+
 		words = _words;
 		paramHandler = _paramHandler;
 
-		for (auto w : words) {
+		for (auto& w : words) {
 			if (s.find(w.content) == s.end()) {
 				s.emplace(w.content);
 			}
@@ -153,7 +170,12 @@ public:
 			tail2words[w.last].emplace_back(w);
 			visited[w.content] = false;
 		}
-		
+		if (!paramHandler.allowCircle()) {
+			std::vector<std::string> path;
+			for (auto& w : words) {
+				dfsCheck(w, path);
+			}
+		}
 	}
 
 	std::vector<std::string> handle() {
@@ -171,7 +193,7 @@ public:
 			return genMaxAlphaNumChains(ch1, ch2);
 			break;
 		}
-			
+
 		case Type::WORD_NUM: {
 			// -w
 			if (!paramHandler.noSameHead()) {
@@ -193,12 +215,12 @@ public:
 	}
 
 	std::vector<std::string> genChainsAll() {
-		std::vector<std::stack<std::string>> ans;
-		std::stack<std::string> res;
+		std::vector<std::vector<std::string>> ans;
+		std::vector<std::string> res;
 
 		std::vector<std::string> real_ans;
 
-	
+
 		for (auto& w : words) {
 			dfsAllChain(w, res, ans);
 		}
@@ -206,9 +228,8 @@ public:
 		std::cout << ans.size() << std::endl;
 		for (auto& st : ans) {
 			std::string tmp = "";
-			while (!st.empty()) {
-				tmp = st.top() + " " + tmp;
-				st.pop();
+			for (auto& p : st) {
+				tmp = tmp + " " + p;
 			}
 			real_ans.emplace_back(tmp);
 		}
@@ -218,13 +239,13 @@ public:
 	std::vector<std::string> genLongestChains(char ch1, char ch2) {
 		std::vector<std::string> ans;
 		std::vector<std::string> res;
-		// ´ÓwordsÖÐÉ¸Ñ¡³öÒÔ ch1 ¿ªÍ·µÄ×ÖÄ¸
+		// ï¿½ï¿½wordsï¿½ï¿½É¸Ñ¡ï¿½ï¿½ï¿½ï¿½ ch1 ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½Ä¸
 		std::vector<Word> sample = samplePoints(ch1);
 
 		for (auto& w : sample) {
-			dfsLongest(w, res, ans, ch2); // ÔÚÂ·¾¶ÖÐÕÒ³öÒÔ ch2 ½áÎ²µÄ×î³¤µ¥´ÊÁ´	  
+			dfsLongest(w, res, ans, ch2); // ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ ch2 ï¿½ï¿½Î²ï¿½ï¿½ï¿½î³¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	  
 		}
-		
+
 		return ans;
 	}
 
@@ -236,7 +257,7 @@ public:
 		for (auto& w : words) {
 			dfsLongestNoSameHead(w, path, ans, heads);
 		}
-		
+
 		/*std::ofstream out("solution.txt", std::ios::out);
 
 		for (auto& s : ans) {
@@ -253,11 +274,11 @@ public:
 		std::vector<std::string> ans;
 		std::vector<std::string> path;
 
-		// É¸Ñ¡³öÒÔ ch1 Îª¿ªÍ·µÄµ¥´Ê½øÐÐ±éÀú 
+		// É¸Ñ¡ï¿½ï¿½ï¿½ï¿½ ch1 Îªï¿½ï¿½Í·ï¿½Äµï¿½ï¿½Ê½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ 
 		std::vector<Word> sample = samplePoints(ch1);
 
 		for (auto& w : sample) {
-			dfsMaxAlphaNum(w, path, pathSum, ans, sum, ch2); //µ¥´ÊÁ´ÖÐÒªÇóÒÔ ch2 Îª½áÎ²
+			dfsMaxAlphaNum(w, path, pathSum, ans, sum, ch2); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ ch2 Îªï¿½ï¿½Î²
 		}
 
 		/*std::ofstream out("solution.txt", std::ios::out);
@@ -271,7 +292,7 @@ public:
 	}
 
 
-	
+
 
 
 

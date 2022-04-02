@@ -132,8 +132,6 @@ namespace PairTest {
 				{ "wo", "shi", "yi", "ge", "sha", "bi" }));
 			testCases.push_back(ExtractWordsTestCase("wo",
 				{ "wo" }));
-			testCases.push_back(ExtractWordsTestCase("",
-				{}));
 			testCases.push_back(ExtractWordsTestCase("a",
 				{}));
 			testCases.push_back(ExtractWordsTestCase("a a a",
