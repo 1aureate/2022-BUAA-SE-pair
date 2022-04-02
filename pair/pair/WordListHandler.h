@@ -197,8 +197,8 @@ public:
 	}
 
 	std::vector<std::string> genChainsAll() {
-		std::vector<std::stack<std::string>> ans;
-		std::stack<std::string> res;
+		std::vector<std::vector<std::string>> ans;
+		std::vector<std::string> res;
 
 		std::vector<std::string> real_ans;
 
@@ -210,9 +210,8 @@ public:
 		std::cout << ans.size() << std::endl;
 		for (auto& st : ans) {
 			std::string tmp = "";
-			while (!st.empty()) {
-				tmp = st.top() + " " + tmp;
-				st.pop();
+			for (auto& p : st) {
+				tmp += p;
 			}
 			real_ans.emplace_back(tmp);
 		}
