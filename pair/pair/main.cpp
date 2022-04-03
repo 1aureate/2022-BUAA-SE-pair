@@ -14,8 +14,6 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
-	
-
 	try {
 		ParamHandler* paramHandler;
 		if (DEBUG) {
@@ -48,7 +46,6 @@ int main(int argc, char* argv[]) {
 				int (*func)(char* [], int, char* []) =
 					(int (*)(char* [], int, char* []))GetProcAddress(hdll, "gen_chain_word_unique");
 				returnValue = func(newWords, words.size(), (char**)result);
-				
 			}
 			else {
 				int (*func)(char* [], int, char* [], char, char, bool) =
@@ -123,56 +120,3 @@ char** vectorString2charArray(std::vector<std::string> words) {
 	}
 	return ans;
 }
-/*
-int main(int argc, char* argv[])
-{
-	try {
-		if (DEBUG) {
-			int argc = 4;
-			
-			char * argv[] = { "pair.exe", "-w", "test.txt", "-r"};
-			argv[0] = "pair.exe";
-			ParamHandler paramHandler(argc, argv);
-			std::cout << "[msg]: param handled" << std::endl;
-			InputsHandler inputsHandler;
-			std::vector<Word> words = inputsHandler.handle(paramHandler.getFileName());
-			std::cout << "[msg]: inputs handled" << std::endl;
-			WordListHandler wordListHandler(paramHandler, words);
-			std::cout << "[msg]: start wordListHandler" << std::endl;
-			std::vector<std::string> ans = wordListHandler.handle();
-			STDOutputHandler soh;
-			soh.output(ans);
-		}
-		else {
-			ParamHandler paramHandler(argc, argv);
-			std::cout << "[msg]: param handled" << std::endl;
-			InputsHandler inputsHandler;
-			std::vector<Word> words = inputsHandler.handle(argv[argc - 1]);
-			std::cout << "[msg]: inputs handled" << std::endl;
-			WordListHandler wordListHandler(paramHandler, words);
-			std::cout << "[msg]: start wordListHandler" << std::endl;
-			std::vector<std::string> ans = wordListHandler.handle();
-
-			if (paramHandler.getType() == Type::CHAIN_NUM) {
-				STDOutputHandler soh;
-				soh.output(ans);
-			}
-			else {
-				FileOutputHandler foh("solution.txt");
-				foh.output(ans);
-			}
-		}
-		std::cout << "[msg]: target handled" << std::endl;
-	}
-	catch (ParamException pe) {
-		std::cout << "[error]: " << pe.what();
-	}
-	catch (FileIllegalException fe) {
-		std::cout << "[error]: " << fe.what();
-	}
-	catch (ExistsLoopException ee) {
-		std::cout << "[error]: " << ee.what();
-	}
-	return 0;
-}
-*/

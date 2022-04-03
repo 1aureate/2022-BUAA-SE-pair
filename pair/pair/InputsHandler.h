@@ -8,8 +8,7 @@
 
 class InputsHandler
 {
-private:
-	std::string getWord(std::ifstream& _in);
+
 public:
 	InputsHandler() {};
 	std::vector<std::string> extractWords(const std::string& s);

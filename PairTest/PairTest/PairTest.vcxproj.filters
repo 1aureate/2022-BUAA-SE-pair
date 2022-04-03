@@ -51,6 +51,9 @@
     <ClCompile Include="PairTest.cpp">
       <Filter>源文件\pairTest</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\pair\pair\ErrorCodeHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -92,10 +95,18 @@
     <ClInclude Include="..\..\pair_dll\pair_dll\dllmain.h">
       <Filter>源文件\pair_dll</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\pair\pair\ErrorCodeHandler.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PairTest.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt">
+      <Filter>源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>
