@@ -1,9 +1,10 @@
 #include "pch.h"
+#include "PairTest.h"
 #include "CppUnitTest.h"
 #include "sp.h"
 #include <iostream>
 #include <vector>
-#include "../../pair_dll/pair_dll/dllmain.h"
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace PairTest {
@@ -31,17 +32,10 @@ namespace PairTest {
 				}
 
 			};
-			/*
-			int argc;
-			char* argv[20]; 最多20个参数
-			Type stdTypes;
-			char stdSpecializedHead;
-			char stdSpecializedTail;
-			bool stdAllowCircle;
-			bool stdSameHead;
-			*/
 			std::vector<TestCase> testCases;
 
+			char* argv1555[] = { "pair.exe", "-c", "-r", "test1" };
+			testCases.push_back(TestCase(4, argv1555, Type::CHAR_NUM, 0, 0, true, false, "test1.txt"));
 			// test for -n -w -m -c
 			char* argv1[] = { "pair.exe", "-n", "test1.txt" };
 			testCases.push_back(TestCase(3, argv1, Type::CHAIN_NUM, 0, 0, false, false, "test1.txt"));
@@ -190,29 +184,6 @@ namespace PairTest {
 				}
 			}
 		}
-
-		TEST_METHOD(testHandle) {
-			class HanderTestCase {
-			public:
-				std::string filename;
-				std::vector<std::string> stdOutput;
-				HanderTestCase(std::string filename, std::vector<std::string> stdOutput) :
-					filename(filename), stdOutput(stdOutput) {}
-			};
-			std::vector<HanderTestCase> testCases;
-			testCases.push_back(HanderTestCase("test.txt", { "woox", "xoom", "moot", "tooq", "hjjk", "klla", "assd", "dffg" }));
-
-			InputsHandler ih;
-
-			for (auto testCase : testCases) {
-				auto output = ih.handle("..\\..\\PairTest\\" + testCase.filename);
-				size_t len = output.size();
-				Assert::AreEqual(len, testCase.stdOutput.size());
-				for (size_t i = 0; i < len; i++) {
-					Assert::IsTrue(output[i].compare(testCase.stdOutput[i]) == 0);
-				}
-			}
-		}
 	};
 
 	TEST_CLASS(WordListHandlerTest) {
@@ -238,30 +209,158 @@ namespace PairTest {
 			class GenChainsAllPythonTestCase {
 			public:
 				char* words;
-				std::string stdOutput;
-				GenChainsAllPythonTestCase(char* words, std::string stdOutput) 
-					: words(words), stdOutput(stdOutput) {}
+				int stdChainNum;
+				GenChainsAllPythonTestCase(char* words, int stdChainNum)
+					: stdChainNum(stdChainNum) {
+					this->words = words;
+				}
 			};
+			std::vector<GenChainsAllPythonTestCase> testCases;
+			char words1[] = { "woo oom moon noox" };
+			testCases.push_back(GenChainsAllPythonTestCase(words1, 6));
+			char words2[] = { "Algebra Apple Zoo Elephant Elephant Under Fox Dog Moon Leaf Trick Pseudopseudohypoparathyroidism" };
+			testCases.push_back(GenChainsAllPythonTestCase(words2, 8));
+			char words3[] = { "woo" };
+			testCases.push_back(GenChainsAllPythonTestCase(words3, 0));
+			char words4[1] = {};
+			testCases.push_back(GenChainsAllPythonTestCase(words4, 0));
 
-			char* words = "hello world!Ops& stupid!a";
-			char* result = new char[200000];
-			char* error_msg = new char[200000];
-			int size = gen_chains_all_python(words, &result, &error_msg);
-			Assert::IsTrue(size != 0);
-		}
-		TEST_METHOD(testGenChainWordPython) {
-			char* words = "Element Heaven Table Teach Talk";
 			char* result = new char[200000];
 			char* error_msg = new char[2000];
-			int size = gen_chain_word_python(words, &result, 0, 0, false, &error_msg);
-			Assert::IsTrue(size != 0);
+			for (auto& testCase : testCases) {
+				int chainNum = gen_chains_all_python(testCase.words, &result, &error_msg);
+				Assert::AreEqual(chainNum, testCase.stdChainNum);
+			}
+		}
+		TEST_METHOD(testGenChainWordPython) {
+			class GenChainWordPythonTestCase {
+
+			public:
+				char* words;
+				char head;
+				char tail;
+				bool enable_loop;
+				int stdChainNum;
+				GenChainWordPythonTestCase(char* words, char head, char tail, bool enable_loop, int stdChainNum)
+					: head(head), tail(tail), enable_loop(enable_loop), stdChainNum(stdChainNum) {
+					this->words = words;
+				}
+			};
+			std::vector<GenChainWordPythonTestCase> testCases;
+			char* words3 = { "woo" };
+			testCases.push_back(GenChainWordPythonTestCase(words3, 0, 0, false, 0));
+			char* words1 = { "woo oom moon noox" };
+			testCases.push_back(GenChainWordPythonTestCase(words1, 0, 0, false, 4));
+			testCases.push_back(GenChainWordPythonTestCase(words1, 'w', 0, false, 4));
+			testCases.push_back(GenChainWordPythonTestCase(words1, 'o', 0, false, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words1, 'n', 0, false, 0));
+			testCases.push_back(GenChainWordPythonTestCase(words1, 0, 'x', false, 4));
+			testCases.push_back(GenChainWordPythonTestCase(words1, 0, 'n', false, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words1, 0, 'o', false, 0));
+			char words2[] = { "Algebra Apple Zoo Elephant Elephant Under Fox Dog Moon Leaf Trick Pseudopseudohypoparathyroidism" };
+			testCases.push_back(GenChainWordPythonTestCase(words2, 0, 0, false, 4));
+
+			char* words4 = {"\0"};
+			testCases.push_back(GenChainWordPythonTestCase(words4, 0, 0, false, 0));
+			char* words5 = { "woo oom moow" };
+			testCases.push_back(GenChainWordPythonTestCase(words5, 0, 0, false, -3));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 0, 0, true, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 'w', 0, true, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 'o', 0, true, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 'm', 0, true, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 0, 'o', true, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 0, 'm', true, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 0, 'w', true, 3));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 1, 'w', false, -4));
+			testCases.push_back(GenChainWordPythonTestCase(words5, 0, 2, false, -4));
+
+
+			char* result = new char[200000];
+			char* error_msg = new char[2000];
+			for (auto& testCase : testCases) {
+				int chainNum = gen_chain_word_python(testCase.words, &result, testCase.head,
+					testCase.tail, testCase.enable_loop, &error_msg);
+				Assert::AreEqual(chainNum, testCase.stdChainNum);
+			}
 		}
 		TEST_METHOD(testGenChainWordUniquePython) {
-			
+			class GenChainWordUniquePythonTestCase {
+			public:
+				char* words;
+				int stdChainNum;
+				GenChainWordUniquePythonTestCase(char* words, int stdChainNum)
+					: stdChainNum(stdChainNum) {
+					this->words = words;
+				}
+			};
+			std::vector<GenChainWordUniquePythonTestCase> testCases;
+			char words1[] = { "woo oom moon noox" };
+			testCases.push_back(GenChainWordUniquePythonTestCase(words1, 4));
+			char words2[] = { "Algebra Apple Zoo Elephant Elephant Under Fox Dog Moon Leaf Trick Pseudopseudohypoparathyroidism" };
+			testCases.push_back(GenChainWordUniquePythonTestCase(words2, 3));
+			char words3[] = { "woo" };
+			testCases.push_back(GenChainWordUniquePythonTestCase(words3, 0));
+			char words4[1] = {};
+			testCases.push_back(GenChainWordUniquePythonTestCase(words4, 0));
+
+			char* result = new char[200000];
+			char* error_msg = new char[2000];
+			for (auto& testCase : testCases) {
+				int chainNum = gen_chain_word_unique_python(testCase.words, &result, &error_msg);
+				Assert::AreEqual(chainNum, testCase.stdChainNum);
+			}
 		}
 		TEST_METHOD(testGenChainCharPython) {
-			
+			class GenChainCharPythonTestCase {
+			public:
+				char* words;
+				char head;
+				char tail;
+				bool enable_loop;
+				int stdChainNum;
+				GenChainCharPythonTestCase(char* words, char head, char tail, bool enable_loop, int stdChainNum)
+					: head(head), tail(tail), enable_loop(enable_loop), stdChainNum(stdChainNum) {
+					this->words = words;
+				}
+			};
+			std::vector<GenChainCharPythonTestCase> testCases;
+			char* words3 = { "woo" };
+			testCases.push_back(GenChainCharPythonTestCase(words3, 0, 0, false, 0));
+			char* words1 = { "woo oom moon noox" };
+			testCases.push_back(GenChainCharPythonTestCase(words1, 0, 0, false, 4));
+			testCases.push_back(GenChainCharPythonTestCase(words1, 'w', 0, false, 4));
+			testCases.push_back(GenChainCharPythonTestCase(words1, 'o', 0, false, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words1, 'n', 0, false, 0));
+			testCases.push_back(GenChainCharPythonTestCase(words1, 0, 'x', false, 4));
+			testCases.push_back(GenChainCharPythonTestCase(words1, 0, 'n', false, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words1, 0, 'o', false, 0));
+			char words2[] = { "Algebra Apple Zoo Elephant Elephant Under Fox Dog Moon Leaf Trick Pseudopseudohypoparathyroidism" };
+			testCases.push_back(GenChainCharPythonTestCase(words2, 0, 0, false, 2));
+
+			char* words4 = { "\0" };
+			testCases.push_back(GenChainCharPythonTestCase(words4, 0, 0, false, 0));
+			char* words5 = { "woo oom moow" };
+			testCases.push_back(GenChainCharPythonTestCase(words5, 0, 0, false, -3));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 0, 0, true, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 'w', 0, true, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 'o', 0, true, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 'm', 0, true, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 0, 'o', true, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 0, 'm', true, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 0, 'w', true, 3));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 1, 'w', false, -4));
+			testCases.push_back(GenChainCharPythonTestCase(words5, 0, 2, false, -4));
+
+
+			char* result = new char[200000];
+			char* error_msg = new char[2000];
+			for (auto& testCase : testCases) {
+				int chainNum = gen_chain_char_python(testCase.words, &result, testCase.head,
+					testCase.tail, testCase.enable_loop, &error_msg);
+				Assert::AreEqual(chainNum, testCase.stdChainNum);
+			}
 		}
+		
 		TEST_METHOD(testGenChainsAll) {
 			class GenChainsAllTestCase {
 			public:
@@ -276,14 +375,18 @@ namespace PairTest {
 				}
 			};
 			std::vector<GenChainsAllTestCase> testCases;
-			char* words1[] = { "woo", "oom", "moon", "noox" };
+			/*char* words1[] = { "woo", "oom", "moon", "noox" };
 			testCases.push_back(GenChainsAllTestCase(words1, 4, 6));
-			char* words2[] = { "Algebra", "Apple", "Zoo", "Elephant", "Elephant", "Under", "Fox", "Dog", "Moon", "Leaf", "Trick", "Pseudopseudohypoparathyroidism"};
+			char* words2[] = { "Algebra", "Apple", "Zoo", "Elephant", "Elephant", "Under", "Fox", "Dog", "Moon", "Leaf", "Trick", "Pseudopseudohypoparathyroidism" };
 			testCases.push_back(GenChainsAllTestCase(words2, 12, 8));
-			char* words3[] = { "woo"};
+			char* words3[] = { "woo" };
 			testCases.push_back(GenChainsAllTestCase(words3, 1, 0));
 			char* words4[1] = {};
-			testCases.push_back(GenChainsAllTestCase(words4, 0, 0));
+			testCases.push_back(GenChainsAllTestCase(words4, 0, 0));*/
+			char* words5[] = {"345"};
+			testCases.push_back(GenChainsAllTestCase(words5, 1, -1));
+			char* words6[] = { "woo", "oom", "moon", "noow" };
+			testCases.push_back(GenChainsAllTestCase(words6, 4, -3));
 
 			auto result = new char* [10000];
 			for (auto& testCase : testCases) {
@@ -291,7 +394,6 @@ namespace PairTest {
 				Assert::AreEqual(chainNum, testCase.stdChainNum);
 			}
 		}
-
 		TEST_METHOD(testGenChainWord) {
 			class GenChainWordTestCase {
 			public:
@@ -333,6 +435,15 @@ namespace PairTest {
 			testCases.push_back(GenChainWordTestCase(words5, 3, 0, 'o', true, 3));
 			testCases.push_back(GenChainWordTestCase(words5, 3, 0, 'm', true, 3));
 			testCases.push_back(GenChainWordTestCase(words5, 3, 0, 'w', true, 3));
+			testCases.push_back(GenChainWordTestCase(words5, 3, 1, 'w', false, -4));
+			testCases.push_back(GenChainWordTestCase(words5, 3, 0, 2, false, -4));
+
+			char* words6[] = { "woo", "o", "oon" };
+			testCases.push_back(GenChainWordTestCase(words6, 3, 0, 0, false, -1));
+			char* words7[] = { "woo", "123", "oon" };
+			testCases.push_back(GenChainWordTestCase(words7, 3, 0, 0, false, -1));
+
+			
 
 			if (true) {
 				int i = 0;
@@ -367,6 +478,10 @@ namespace PairTest {
 			testCases.push_back(GenChainWordUniqueTestCase(words3, 1, 0));
 			char* words4[1] = {};
 			testCases.push_back(GenChainWordUniqueTestCase(words4, 0, 0));
+			char* words5[] = { "345" };
+			testCases.push_back(GenChainWordUniqueTestCase(words5, 1, -1));
+			char* words6[] = { "woo", "oom", "moon", "noow" };
+			testCases.push_back(GenChainWordUniqueTestCase(words6, 4, -3));
 
 			auto result = new char* [10000];
 			for (auto& testCase : testCases) {
@@ -416,6 +531,13 @@ namespace PairTest {
 			testCases.push_back(GenChainCharTestCase(words5, 3, 0, 'o', true, 3));
 			testCases.push_back(GenChainCharTestCase(words5, 3, 0, 'm', true, 3));
 			testCases.push_back(GenChainCharTestCase(words5, 3, 0, 'w', true, 3));
+			testCases.push_back(GenChainCharTestCase(words5, 3, 1, 'w', false, -4));
+			testCases.push_back(GenChainCharTestCase(words5, 3, 0, 2, false, -4));
+
+			char* words6[] = { "woo", "o", "oon" };
+			testCases.push_back(GenChainCharTestCase(words6, 3, 0, 0, false, -1));
+			char* words7[] = { "woo", "123", "oon" };
+			testCases.push_back(GenChainCharTestCase(words7, 3, 0, 0, false, -1));
 
 			if (true) {
 				int i = 0;

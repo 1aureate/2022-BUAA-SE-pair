@@ -1,10 +1,5 @@
 #include "ErrorCodeHandler.h"
 
-/*
-0: no problem
--1: 
-*/
-
 std::vector<std::string> ErrorCodeHandler::errorMessages = { 
 	"Everything is alright.", 
 	"Illegal word exists.",

@@ -3,7 +3,7 @@
 // TODO handle the header
 
 #include "main.h"
-#include <Windows.h>
+
 
 int main(int argc, char* argv[]) {
 	
@@ -27,7 +27,8 @@ int main(int argc, char* argv[]) {
 		
 		std::cout << "[msg]: param handled" << std::endl;
 		InputsHandler inputsHandler;
-		std::vector<std::string> words = inputsHandler.handle(paramHandler->getFileName());
+		std::vector<std::string> words = 
+			inputsHandler.extractWords(file2string(paramHandler->getFileName()));
 		std::cout << "[msg]: inputs handled" << std::endl;
 
 		char** newWords = vectorString2charArray(words);
@@ -119,4 +120,22 @@ char** vectorString2charArray(std::vector<std::string> words) {
 		strcpy_s(ans[i], words[i].size() + 1, words[i].c_str());
 	}
 	return ans;
+}
+
+std::string file2string(std::string filename)
+{
+	std::ifstream in;
+	in.open(filename, std::ios::in);
+	if (!in.is_open()) {
+		throw FileIllegalException("cant open file " + filename);
+	}
+	std::cout << "start" << std::endl;
+	in.seekg(0, std::ios::end);
+	auto length = in.tellg();
+	in.seekg(0, std::ios::beg);
+	auto buffer = new char[length];
+	in.read(buffer, length);
+	std::cout << "end" << std::endl;
+	in.close();
+	return buffer;
 }

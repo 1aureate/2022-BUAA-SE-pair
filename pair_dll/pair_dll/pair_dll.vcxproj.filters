@@ -27,19 +27,19 @@
     <ClInclude Include="..\..\pair\pair\main.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\pair\pair\ParamHandler.h">
+    <ClInclude Include="word.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\pair\pair\MException.h">
+    <ClInclude Include="MException.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\pair\pair\InputsHandler.h">
+    <ClInclude Include="InputsHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\pair\pair\WordListHandler.h">
+    <ClInclude Include="WordListHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\pair\pair\word.h">
+    <ClInclude Include="ParamHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,16 +50,16 @@
     <ClCompile Include="pch.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\pair\pair\InputsHandler.cpp">
+    <ClCompile Include="InputsHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\pair\pair\MException.cpp">
+    <ClCompile Include="WordListHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\pair\pair\ParamHandler.cpp">
+    <ClCompile Include="MException.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\pair\pair\WordListHandler.cpp">
+    <ClCompile Include="ParamHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

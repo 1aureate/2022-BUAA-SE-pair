@@ -12,6 +12,5 @@ class InputsHandler
 public:
 	InputsHandler() {};
 	std::vector<std::string> extractWords(const std::string& s);
-	std::vector<std::string> handle(std::string _filename);
 };
 

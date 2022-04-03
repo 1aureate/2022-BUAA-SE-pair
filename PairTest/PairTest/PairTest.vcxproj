@@ -158,15 +158,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\pair\pair\ErrorCodeHandler.cpp" />
-    <ClCompile Include="..\..\pair\pair\InputsHandler.cpp" />
-    <ClCompile Include="..\..\pair\pair\main.cpp" />
-    <ClCompile Include="..\..\pair\pair\MException.cpp" />
-    <ClCompile Include="..\..\pair\pair\OutputHandler.cpp" />
-    <ClCompile Include="..\..\pair\pair\ParamHandler.cpp" />
-    <ClCompile Include="..\..\pair\pair\WordListHandler.cpp" />
     <ClCompile Include="..\..\pair_dll\pair_dll\dllmain.cpp" />
+    <ClCompile Include="..\..\pair_dll\pair_dll\InputsHandler.cpp" />
+    <ClCompile Include="..\..\pair_dll\pair_dll\MException.cpp" />
+    <ClCompile Include="..\..\pair_dll\pair_dll\ParamHandler.cpp" />
     <ClCompile Include="..\..\pair_dll\pair_dll\pch.cpp" />
+    <ClCompile Include="..\..\pair_dll\pair_dll\WordListHandler.cpp" />
     <ClCompile Include="PairTest.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -174,19 +171,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PairTest.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\pair\pair\ErrorCodeHandler.h" />
-    <ClInclude Include="..\..\pair\pair\InputsHandler.h" />
-    <ClInclude Include="..\..\pair\pair\main.h" />
-    <ClInclude Include="..\..\pair\pair\MException.h" />
-    <ClInclude Include="..\..\pair\pair\OutputHandler.h" />
-    <ClInclude Include="..\..\pair\pair\ParamHandler.h" />
-    <ClInclude Include="..\..\pair\pair\word.h" />
-    <ClInclude Include="..\..\pair\pair\WordListHandler.h" />
     <ClInclude Include="..\..\pair_dll\pair_dll\dllmain.h" />
     <ClInclude Include="..\..\pair_dll\pair_dll\framework.h" />
+    <ClInclude Include="..\..\pair_dll\pair_dll\InputsHandler.h" />
+    <ClInclude Include="..\..\pair_dll\pair_dll\MException.h" />
+    <ClInclude Include="..\..\pair_dll\pair_dll\ParamHandler.h" />
     <ClInclude Include="..\..\pair_dll\pair_dll\pch.h" />
+    <ClInclude Include="..\..\pair_dll\pair_dll\word.h" />
+    <ClInclude Include="..\..\pair_dll\pair_dll\WordListHandler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sp.h" />
