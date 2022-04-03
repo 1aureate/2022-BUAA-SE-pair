@@ -139,23 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\pair_dll\pair_dll\InputsHandler.cpp" />
+    <ClCompile Include="..\..\pair_dll\pair_dll\ParamHandler.cpp" />
     <ClCompile Include="ErrorCodeHandler.cpp" />
-    <ClCompile Include="InputsHandler.cpp" />
-    <ClCompile Include="MException.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OutputHandler.cpp" />
-    <ClCompile Include="ParamHandler.cpp" />
-    <ClCompile Include="WordListHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\pair_dll\pair_dll\InputsHandler.h" />
+    <ClInclude Include="..\..\pair_dll\pair_dll\ParamHandler.h" />
     <ClInclude Include="ErrorCodeHandler.h" />
-    <ClInclude Include="InputsHandler.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="MException.h" />
     <ClInclude Include="OutputHandler.h" />
-    <ClInclude Include="word.h" />
-    <ClInclude Include="ParamHandler.h" />
-    <ClInclude Include="WordListHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt" />

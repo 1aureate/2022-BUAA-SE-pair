@@ -42,9 +42,6 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 	for (int i = 1; i < argc; i++) {
 		char const * s = argv[i];
 		if (s[0] == '-') {
-			if (preParam & (n | w | c | m)) {
-				throw ParamException("Please input filename after -n -w -m or -c");
-			}
 			if (s[1] == '\0' || s[2] != '\0') {
 				throw ParamException("There are redundant character or missed cahrecter after '-'");
 			}
@@ -121,7 +118,6 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 
 			}
 			else {
-				// 说明前一个是-n -w -m -c中的一个
 				fileName = std::string(s);
 				auto r = checkFileName(fileName);
 				if (r == false) {

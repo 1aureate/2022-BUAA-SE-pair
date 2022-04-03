@@ -1,6 +1,6 @@
 #pragma once
 #include "CppUnitTest.h"
-#include "../../pair/pair/main.h"
+#include "PairTest.h"
 
 namespace Microsoft
 {

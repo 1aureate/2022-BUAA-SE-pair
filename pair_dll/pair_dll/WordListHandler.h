@@ -95,7 +95,7 @@ private:
 		path.emplace_back(word.content);
 		heads[word.first - 'a'] = true;
 		visited[word.content] = true;
-		if (path.size() > ans.size()) {
+		if (path.size() > ans.size() && path.size() > 1) {
 			ans = path;
 		}
 
@@ -115,7 +115,7 @@ private:
 		visited[word.content] = true;
 		pathSum += word.content.size();
 
-		if (pathSum > sum && (ch == '*' || word.last == ch)) {
+		if (pathSum > sum && path.size() > 1 && (ch == '*' || word.last == ch)) {
 			ans = path;
 			sum = pathSum;
 		}
