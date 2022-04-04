@@ -1,30 +1,9 @@
-<<<<<<< HEAD
-﻿  ErrorCodeHandler.cpp
-  InputsHandler.cpp
-  MException.cpp
+﻿  ParamHandler.cpp
   main.cpp
-C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\WordListHandler.h(116,31): warning C4267: “+=”: 从“size_t”转换到“int”，可能丢失数据
-C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\WordListHandler.h(131,31): warning C4267: “-=”: 从“size_t”转换到“int”，可能丢失数据
-C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(43,61): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(50,62): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(61,33): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(73,32): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(119,29): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  OutputHandler.cpp
-  ParamHandler.cpp
-  WordListHandler.cpp
+C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(42,61): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(49,62): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(59,33): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(71,32): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\86182\Desktop\2022-BUAA-SE\pair\pair\main.cpp(117,29): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   正在生成代码...
   pair.vcxproj -> C:\Users\86182\Desktop\2022-BUAA-SE\pair\x64\Debug\pair.exe
-=======
-﻿  InputsHandler.cpp
-  ParamHandler.cpp
-  ErrorCodeHandler.cpp
-  main.cpp
-D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair\pair\main.cpp(42,61): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair\pair\main.cpp(49,62): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair\pair\main.cpp(59,33): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair\pair\main.cpp(71,32): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair\pair\main.cpp(117,29): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  正在生成代码...
-  pair.vcxproj -> D:\Chaos\Program\C++\2022-BUAA-SE-pair\pair\x64\Debug\pair.exe
->>>>>>> b6c8d82e61eed3abde1ee0b8153e5a08d8b067fb

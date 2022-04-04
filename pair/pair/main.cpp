@@ -8,7 +8,7 @@
 int main(int argc, char* argv[]) {
 	
 	HINSTANCE hdll;
-	hdll = LoadLibrary(L"../../pair_dll/x64/Debug/pair_dll.dll");
+	hdll = LoadLibrary(L"./pair_dll.dll");
 	if (hdll == nullptr) {
 		std::cout << "[error]: can't find dll file";
 		return 0;

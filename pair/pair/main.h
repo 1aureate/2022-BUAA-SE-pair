@@ -15,5 +15,5 @@
 char** vectorString2charArray(std::vector<std::string> words);
 std::string file2string(std::string filename);
 
-#define DEBUG true
+#define DEBUG false
 

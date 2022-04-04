@@ -32,7 +32,7 @@ ParamHandler::ParamHandler(Type type, char head, char tail, bool enable_loop, bo
 	}
 }
 
-ParamHandler::ParamHandler(int argc, char* argv[]) 
+ParamHandler::ParamHandler(int argc, char* argv[])
 	: head(0), tail(0), status(0), fileName("") {
 	if (argc < 2) {
 		throw ParamException("Please specify -n -w -m -c");
@@ -40,7 +40,7 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 	int flag = 0;
 	int preParam = 0;
 	for (int i = 1; i < argc; i++) {
-		char const * s = argv[i];
+		char const* s = argv[i];
 		if (s[0] == '-') {
 			if (s[1] == '\0' || s[2] != '\0') {
 				throw ParamException("There are redundant character or missed cahrecter after '-'");
@@ -106,7 +106,8 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 			if (preParam == h || preParam == t) {
 				if (s[1] != '\0') {
 					throw ParamException("There is redundent character");
-				} else if (tolower(s[0]) < 'a' || tolower(s[0]) > 'z') {
+				}
+				else if (tolower(s[0]) < 'a' || tolower(s[0]) > 'z') {
 					throw ParamException("unrecognied character, please use English alphabet.");
 				}
 				if (preParam == h) {
@@ -120,6 +121,9 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 			else {
 				fileName = std::string(s);
 				auto r = checkFileName(fileName);
+				if (status & f) {
+					throw FileIllegalException("Please input only one '.txt'");
+				}
 				if (r == false) {
 					throw FileIllegalException("Please make sure the filename end up with '.txt'");
 				}
@@ -136,12 +140,13 @@ bool ParamHandler::checkFileName(std::string& s) {
 	if (s.size() < 4 || s.substr(s.size() - 4, s.size()) != std::string(".txt")) {
 		return false;
 	}
+	status |= f;
 	return true;
 }
 
 Type ParamHandler::getType()
 {
-	if (status & n) 
+	if (status & n)
 	{
 		return Type::CHAIN_NUM;
 	}
