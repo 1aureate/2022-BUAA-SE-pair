@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 import  os
 from ctypes import *
 
-dll = cdll.LoadLibrary(r"C:\Users\86182\Desktop\pair_dll.dll")
+dll = cdll.LoadLibrary(r"./pair_dll.dll")
 
 class Ui_Form(QtWidgets.QWidget):
 
