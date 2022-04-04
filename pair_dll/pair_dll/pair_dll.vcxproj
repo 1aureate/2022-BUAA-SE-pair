@@ -151,28 +151,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\pair\pair\InputsHandler.h" />
     <ClInclude Include="..\..\pair\pair\main.h" />
-    <ClInclude Include="..\..\pair\pair\MException.h" />
-    <ClInclude Include="..\..\pair\pair\ParamHandler.h" />
-    <ClInclude Include="..\..\pair\pair\word.h" />
-    <ClInclude Include="..\..\pair\pair\WordListHandler.h" />
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="InputsHandler.h" />
+    <ClInclude Include="MException.h" />
+    <ClInclude Include="ParamHandler.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="word.h" />
+    <ClInclude Include="WordListHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\pair\pair\InputsHandler.cpp" />
-    <ClCompile Include="..\..\pair\pair\MException.cpp" />
-    <ClCompile Include="..\..\pair\pair\ParamHandler.cpp" />
-    <ClCompile Include="..\..\pair\pair\WordListHandler.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="InputsHandler.cpp" />
+    <ClCompile Include="MException.cpp" />
+    <ClCompile Include="ParamHandler.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="WordListHandler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

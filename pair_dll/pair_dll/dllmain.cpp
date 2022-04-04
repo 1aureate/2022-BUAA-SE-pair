@@ -16,9 +16,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     }
     return TRUE;
 }
-int fib(int n) {
-    return n == 0 || n == 1 ? 1 : fib(n - 1) + fib(n - 2);
-}
+
 
 
 // result只存储一个字符串
@@ -48,10 +46,6 @@ int gen_chain_word(char* words[], int len, char* result[], char head, char tail,
     catch (ExistsLoopException e) {
         return -3;
     }
-    catch (std::exception e) {
-        return -400;
-    }
-    
 }
 
 int gen_chains_all(char* words[], int len, char* result[]) {
@@ -74,10 +68,6 @@ int gen_chains_all(char* words[], int len, char* result[]) {
     catch (ExistsLoopException e) {
         return -3;
     }
-    catch (std::exception e) {
-        return -400;
-    }
-    
 }
 
 int gen_chain_word_unique(char* words[], int len,  char* result[]) {
@@ -100,9 +90,7 @@ int gen_chain_word_unique(char* words[], int len,  char* result[]) {
     catch (ExistsLoopException e) {
         return -3;
     }
-    catch (std::exception e) {
-        return -400;
-    }
+
 }
 
 int gen_chain_char(char* words[], int len, char* result[], 
@@ -132,9 +120,7 @@ int gen_chain_char(char* words[], int len, char* result[],
     catch (ExistsLoopException e) {
         return -3;
     }
-    catch (std::exception e) {
-        return -400;
-    }
+
 }
 
 
@@ -162,9 +148,7 @@ int gen_chains_all_python(char* words, char** result, char** error_msg) {
     catch (ExistsLoopException e) {
         return -3;
     }
-    catch (std::exception e) {
-        return -400;
-    }
+
 }
 
 int gen_chain_word_python(char* words, char** result, char head, 
@@ -194,9 +178,7 @@ int gen_chain_word_python(char* words, char** result, char head,
     catch (ExistsLoopException e) {
         return -3;
     }
-    catch (std::exception e) {
-        return -400;
-    }
+
 }
 
 int gen_chain_word_unique_python(char* words, char** result, char** error_msg) {
@@ -219,9 +201,7 @@ int gen_chain_word_unique_python(char* words, char** result, char** error_msg) {
     catch (ExistsLoopException e) {
         return -3;
     }
-    catch (std::exception e) {
-        return -400;
-    }
+
 }
 
 int gen_chain_char_python(char* words, char** result, char head, char tail, 
@@ -250,9 +230,7 @@ int gen_chain_char_python(char* words, char** result, char head, char tail,
     catch (ExistsLoopException e) {
         return -3;
     }
-    catch (std::exception e) {
-        return -400;
-    }
+
 }
 
 bool checkHeadAndTail(char head, char tail) {
@@ -261,11 +239,15 @@ bool checkHeadAndTail(char head, char tail) {
 }
 
 bool checkWord(const char word[]) {
-    for (int i = 0; word[i] != 0; i++) {
+    int i = 0;
+    for (; word[i] != 0; i++) {
         char ch = word[i];
         if (!((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))) {
             return false;
         }
+    }
+    if (i < 2) {
+        return false;
     }
     return true;
 }

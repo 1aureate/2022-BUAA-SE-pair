@@ -18,41 +18,20 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ParamHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MException.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="InputsHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="WordListHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="OutputHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ErrorCodeHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\pair_dll\pair_dll\InputsHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pair_dll\pair_dll\ParamHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="word.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ParamHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MException.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="InputsHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="WordListHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -60,6 +39,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ErrorCodeHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair_dll\pair_dll\ParamHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\pair_dll\pair_dll\InputsHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
