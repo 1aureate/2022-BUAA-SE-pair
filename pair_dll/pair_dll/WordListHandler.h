@@ -225,7 +225,7 @@ public:
 			dfsAllChain(w, res, ans);
 		}
 
-		std::cout << ans.size() << std::endl;
+		//std::cout << ans.size() << std::endl;
 		for (auto& st : ans) {
 			std::string tmp = "";
 			for (auto& p : st) {

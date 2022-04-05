@@ -133,11 +133,11 @@ class Ui_Form(QtWidgets.QWidget):
         # 存在效率问题
         self.textEdit.textChanged.connect(self.txt_content_change)
     def btn_select_file(self):
-        self.sel_file_name, self.sel_filetype = QtWidgets.QFileDialog.getSaveFileName(self,
+        self.sel_file_name, self.sel_filetype = QtWidgets.QFileDialog.getOpenFileName(self,
                                                                               "选取文件",
                                                                               self.cwd,
                                                                               "Text Files (*.txt)")
-        self.label.setText("选择的文件: " + self.file_name)
+        self.label.setText("选择的文件: " + self.sel_file_name)
 
 
     def btn_input_words(self):
@@ -161,11 +161,11 @@ class Ui_Form(QtWidgets.QWidget):
         #TODO some checks on conflicts between options & input
 
         ok = True
-        if self.l[0]:
+        if self.l[0]: # -N
             if self.l[1] or self.l[2] or self.l[3] or self.l[4] or self.l[5] or self.l[6]:
                 QtWidgets.QMessageBox.critical(self, "错误", "-n 不可与其他选项连用！")
                 ok = False
-        elif self.l[1]:
+        elif self.l[1]: # -W
             if self.l[2] or self.l[3]:
                 QtWidgets.QMessageBox.critical(self, "错误", "-w 不可与-m -c选项连用！")
                 ok = False
@@ -181,18 +181,18 @@ class Ui_Form(QtWidgets.QWidget):
             elif self.l[5] and not self.lineEdit_2.text().isalpha():
                 QtWidgets.QMessageBox.critical(self, "错误", "-t 参数不是字母")
                 ok = False
-        elif self.l[2]:
-            if self.l[3]:
+        elif self.l[2]: # -M
+            if self.l[3] or self.l[4] or self.l[5] or self.l[6]:
                 QtWidgets.QMessageBox.critical(self, "错误", "-m 不可与其他选项连用！")
                 ok = False
-        elif self.l[3]:
+        elif self.l[3]: # -W
+            print(self.lineEdit.text())
             if self.l[4] and len(self.lineEdit.text()) != 1 :
                 QtWidgets.QMessageBox.critical(self, "错误", "-h 参数格式有误！")
                 ok = False
             elif self.l[4] and not self.lineEdit.text().isalpha():
                 QtWidgets.QMessageBox.critical(self, "错误", "-h 参数不是字母")
                 ok = False
-
             if self.l[5] and len(self.lineEdit_2.text()) != 1:
                 QtWidgets.QMessageBox.critical(self, "错误", "-h 参数格式有误！")
                 ok = False
@@ -333,7 +333,7 @@ class Ui_Form(QtWidgets.QWidget):
                                                                               "Text Files (*.txt)")
         if os.path.isfile(self.save_file_name):
             QtWidgets.QMessageBox.critical(self, "错误", "文件名已存在!")
-        else:
+        elif self.save_file_name != '':
             fo = open(self.save_file_name, "w")
             fo.write(self.run_result)
             fo.close()

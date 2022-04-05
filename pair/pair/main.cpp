@@ -25,11 +25,11 @@ int main(int argc, char* argv[]) {
 			paramHandler = new ParamHandler(argc, argv);
 		}
 		
-		std::cout << "[msg]: param handled" << std::endl;
+		//std::cout << "[msg]: param handled" << std::endl;
 		InputsHandler inputsHandler;
 		std::vector<std::string> words = 
 			inputsHandler.extractWords(file2string(paramHandler->getFileName()));
-		std::cout << "[msg]: inputs handled" << std::endl;
+		//std::cout << "[msg]: inputs handled" << std::endl;
 
 		char** newWords = vectorString2charArray(words);
 		auto result = new char[20000][200];
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
 				foh.output((char**)result, returnValue);
 			}
 		}
-		std::cout << "[msg]: target handled" << std::endl;
+		//std::cout << "[msg]: target handled" << std::endl;
 	}
 	catch (ParamException pe) {
 		std::cout << "[error]: " << pe.what();
@@ -129,13 +129,13 @@ std::string file2string(std::string filename)
 	if (!in.is_open()) {
 		throw FileIllegalException("cant open file " + filename);
 	}
-	std::cout << "start" << std::endl;
+	//std::cout << "start" << std::endl;
 	in.seekg(0, std::ios::end);
 	auto length = in.tellg();
 	in.seekg(0, std::ios::beg);
 	auto buffer = new char[length];
 	in.read(buffer, length);
-	std::cout << "end" << std::endl;
+	//std::cout << "end" << std::endl;
 	in.close();
 	return buffer;
 }

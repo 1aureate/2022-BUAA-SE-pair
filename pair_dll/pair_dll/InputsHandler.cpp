@@ -32,7 +32,7 @@ std::vector<std::string> InputsHandler::extractWords(const std::string& s)
 		//	}
 		//}
 		if (res.size() > 1) {
-			std::cout << "get word " + res << std::endl;
+			/*std::cout << "get word " + res << std::endl;*/
 			words.push_back(res);
 		}
 	}

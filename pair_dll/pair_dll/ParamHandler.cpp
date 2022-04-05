@@ -120,10 +120,10 @@ ParamHandler::ParamHandler(int argc, char* argv[])
 			}
 			else {
 				fileName = std::string(s);
-				auto r = checkFileName(fileName);
 				if (status & f) {
 					throw FileIllegalException("Please input only one '.txt'");
 				}
+				auto r = checkFileName(fileName);
 				if (r == false) {
 					throw FileIllegalException("Please make sure the filename end up with '.txt'");
 				}
